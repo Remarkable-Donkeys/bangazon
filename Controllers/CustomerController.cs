@@ -20,7 +20,8 @@ namespace Bangazon.Controllers
         {
             _context = ctx;
         }
-
+        
+        //GET api/customer
         [HttpGet]
         public IActionResult Get()
         {
@@ -88,7 +89,7 @@ namespace Bangazon.Controllers
             return CreatedAtRoute("GetSingleCustomer", new { id = customer.CustomerId }, customer);
         }
 
-                // PUT api/customer/5
+        // PUT api/customer/5
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody]Customer customer)
         {
