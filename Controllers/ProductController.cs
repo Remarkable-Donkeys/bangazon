@@ -20,7 +20,7 @@ namespace Bangazon.Controllers
             _context = ctx;
         }
 
-        // GET api/values
+        // GET list of products
         [HttpGet]
         public IActionResult Get()
         {
@@ -32,7 +32,7 @@ namespace Bangazon.Controllers
             return Ok(products);
         }
 
-        // GET api/values/5
+        // GET single product
         [HttpGet("{id}", Name = "GetSingleProduct")]
         public IActionResult Get(int id)
         {
@@ -116,8 +116,22 @@ namespace Bangazon.Controllers
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            Product product = _context.Product.Single(p => p.ProductId == id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+            _context.Product.Remove(product);
+            _context.SaveChanges();
+            return Ok(product);
+        }
+
+        private bool ProductExists(int productId)
+        {
+            return _context.Product.Any(p => p.ProductId == productId);
         }
     }
 }
