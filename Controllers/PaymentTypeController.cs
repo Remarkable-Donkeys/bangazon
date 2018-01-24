@@ -10,7 +10,7 @@ using Bangazon.Models;
 
 namespace Bangazon.Controllers
 {
-    [Route("bangazon/[controller]")]
+    [Route("api/[controller]")]
     public class PaymentTypeController : Controller
     {
         private BangazonContext _context;
