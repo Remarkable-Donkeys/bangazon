@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Bangazon.Models
 {
-    public class Order
+    public class OrderedProduct
     {
     }
 }
