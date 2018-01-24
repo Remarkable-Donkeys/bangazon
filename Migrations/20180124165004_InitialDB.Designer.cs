@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
-namespace bangazon.Migrations
+namespace Bangazon.Migrations
 {
     [DbContext(typeof(BangazonContext))]
     [Migration("20180124165004_InitialDB")]

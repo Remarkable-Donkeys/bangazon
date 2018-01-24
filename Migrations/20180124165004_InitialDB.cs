@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace bangazon.Migrations
+namespace Bangazon.Migrations
 {
     public partial class InitialDB : Migration
     {
