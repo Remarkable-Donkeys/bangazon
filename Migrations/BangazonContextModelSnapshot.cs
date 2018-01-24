@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
-namespace bangazon.Migrations
+namespace Bangazon.Migrations
 {
     [DbContext(typeof(BangazonContext))]
     partial class BangazonContextModelSnapshot : ModelSnapshot
@@ -25,7 +25,8 @@ namespace bangazon.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("DateCreated")
-                        .ValueGeneratedOnAddOrUpdate();
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasDefaultValueSql("strftime('%Y-%m-%d %H:%M:%S')");
 
                     b.Property<string>("FirstName")
                         .IsRequired()

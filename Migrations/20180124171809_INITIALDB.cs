@@ -2,9 +2,9 @@
 using System;
 using System.Collections.Generic;
 
-namespace bangazon.Migrations
+namespace Bangazon.Migrations
 {
-    public partial class InitialDB : Migration
+    public partial class INITIALDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,7 +14,7 @@ namespace bangazon.Migrations
                 {
                     CustomerId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    DateCreated = table.Column<DateTime>(nullable: false),
+                    DateCreated = table.Column<DateTime>(nullable: false, defaultValueSql: "strftime('%Y-%m-%d %H:%M:%S')"),
                     FirstName = table.Column<string>(maxLength: 55, nullable: false),
                     LastActive = table.Column<DateTime>(nullable: false),
                     LastName = table.Column<string>(maxLength: 55, nullable: false)
