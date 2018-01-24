@@ -15,7 +15,7 @@ namespace Bangazon.Data
         // public DbSet<Products> Products { get; set; }
         // public DbSet<ShoppingCart> ShoppingCart { get; set; }
         // public DbSet<Departments> Departments { get; set; }
-        // public DbSet<TrainingPrograms> TrainingPrograms { get; set; }
+        public DbSet<TrainingProgram> TrainingProgram { get; set; }
         // public DbSet<Computer> Computer { get; set; }
         // public DbSet<Employees> Employees { get; set; }
         // public DbSet<EmployeeComputer> EmployeeComputer { get; set; }
