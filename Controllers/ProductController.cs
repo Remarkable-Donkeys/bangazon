@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,47 +11,44 @@ using Bangazon.Models;
 namespace Bangazon.Controllers
 {
     [Route("api/[controller]")]
-    public class CustomerController : Controller
+    public class ProductController : Controller
     {
         private BangazonContext _context;
-
-        public CustomerController(BangazonContext ctx)
+        // Constructor method to create an instance of context to communicate with our database.
+        public ProductController(BangazonContext ctx)
         {
             _context = ctx;
         }
-        
-        //GET api/customer
+
+        // GET list of products
         [HttpGet]
         public IActionResult Get()
         {
-            var customers = _context.Customer.ToList();
-            if (customers == null)
+            var products = _context.Product.ToList();
+            if (products == null)
             {
                 return NotFound();
             }
-            return Ok(customers);
+            return Ok(products);
         }
 
-
-        // GET api/customer/5
-        [HttpGet("{id}", Name = "GetSingleCustomer")]
+        // GET single product
+        [HttpGet("{id}", Name = "GetSingleProduct")]
         public IActionResult Get(int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
             try
             {
-                Customer customer = _context.Customer.Single(g => g.CustomerId == id);
+                Product product = _context.Product.Single(p => p.ProductId == id);
 
-                if (customer == null)
+                if (product == null)
                 {
                     return NotFound();
                 }
-
-                return Ok(customer);
+                return Ok(product);
             }
             catch (System.InvalidOperationException ex)
             {
@@ -60,16 +56,15 @@ namespace Bangazon.Controllers
             }
         }
 
-        // POST api/customer
+        // POST api/values
         [HttpPost]
-        public IActionResult Post([FromBody]Customer customer)
+        public IActionResult Post([FromBody]Product product)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            _context.Customer.Add(customer);
+            _context.Product.Add(product);
 
             try
             {
@@ -77,40 +72,37 @@ namespace Bangazon.Controllers
             }
             catch (DbUpdateException)
             {
-                if (CustomerExists(customer.CustomerId))
+                if (ProductExists(product.ProductId))
                 {
                     return new StatusCodeResult(StatusCodes.Status409Conflict);
                 }
                 else
                 {
-                    throw;
+                    throw;    
                 }
             }
-            return CreatedAtRoute("GetSingleCustomer", new { id = customer.CustomerId }, customer);
+            return CreatedAtRoute("GetSingleProduct", new { id = product.ProductId }, product);
         }
 
-        // PUT api/customer/5
+        // PUT api/values/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody]Customer customer)
+        public IActionResult Put(int id, [FromBody]Product product)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            if (id != customer.CustomerId)
+            if (id != product.ProductId)
             {
                 return BadRequest();
             }
-            
-            _context.Customer.Update(customer);
-            try
-            {
+            _context.Product.Update(product);
+            try{
                 _context.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CustomerExists(id))
+                if (!ProductExists(id))
                 {
                     return NotFound();
                 }
@@ -119,13 +111,27 @@ namespace Bangazon.Controllers
                     throw;
                 }
             }
-
             return new StatusCodeResult(StatusCodes.Status204NoContent);
         }
 
-        private bool CustomerExists(int customerId)
+        // DELETE api/values/5
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
         {
-            return _context.Customer.Any(g => g.CustomerId == customerId);
+            Product product = _context.Product.Single(p => p.ProductId == id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+            _context.Product.Remove(product);
+            _context.SaveChanges();
+            return Ok(product);
+        }
+
+        private bool ProductExists(int productId)
+        {
+            return _context.Product.Any(p => p.ProductId == productId);
         }
     }
 }

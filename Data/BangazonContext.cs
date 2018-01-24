@@ -10,15 +10,15 @@ namespace Bangazon.Data
         { }
 
         public DbSet<Customer> Customer { get; set; }
-        // public DbSet<ProductType> ProductyType { get; set; }
-        // public DbSet<PaymentType> PaymentType { get; set; }
-        // public DbSet<Products> Products { get; set; }
-        // public DbSet<ShoppingCart> ShoppingCart { get; set; }
-        // public DbSet<Departments> Departments { get; set; }
-        // public DbSet<TrainingPrograms> TrainingPrograms { get; set; }
-        // public DbSet<Computer> Computer { get; set; }
+        public DbSet<ProductType> ProductyType { get; set; }
+        public DbSet<PaymentType> PaymentType { get; set; }
+        public DbSet<Product> Product { get; set; }
+        public DbSet<ShoppingCart> ShoppingCart { get; set; }
+        public DbSet<Departments> Departments { get; set; }
+        public DbSet<TrainingPrograms> TrainingPrograms { get; set; }
+        public DbSet<Computer> Computer { get; set; }
         public DbSet<Employee> Employee { get; set; }
-        // public DbSet<EmployeeComputer> EmployeeComputer { get; set; }
+        public DbSet<EmployeeComputer> EmployeeComputer { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
