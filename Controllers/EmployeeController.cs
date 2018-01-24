@@ -12,8 +12,33 @@ using Bangazon.Models;
 
 namespace Bangazon.Controllers
 {
+    [Route("api/[controller]")]
     public class EmployeeController
     {
+        private BangazonContext _context;
+        public EmployeeController(BangazonContext ctx)
+        {
+            _context = ctx;
+        }
+
+        //GET api/employee
+        [HttpGet]
+        public IActionResult Get()
+        {
+            var employees = _context.Employee.ToList();
+            if (employees == null)
+            {
+                return NotFound();
+            }
+            return Ok(employees);
+        }
+
         
+
+
+
+
+
+
     }
 }

@@ -17,7 +17,7 @@ namespace Bangazon.Data
         // public DbSet<Departments> Departments { get; set; }
         // public DbSet<TrainingPrograms> TrainingPrograms { get; set; }
         // public DbSet<Computer> Computer { get; set; }
-        // public DbSet<Employees> Employees { get; set; }
+        public DbSet<Employee> Employee { get; set; }
         // public DbSet<EmployeeComputer> EmployeeComputer { get; set; }
 
 
