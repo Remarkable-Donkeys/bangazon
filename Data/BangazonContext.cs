@@ -23,9 +23,9 @@ namespace Bangazon.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // modelBuilder.Entity<Order>()
-            //     .Property(b => b.DateCreated)
-            //     .HasDefaultValueSql("strftime('%Y-%m-%d %H:%M:%S')");
+            modelBuilder.Entity<Customer>()
+                .Property(b => b.DateCreated)
+                .HasDefaultValueSql("strftime('%Y-%m-%d %H:%M:%S')");
         }
     }
 }
