@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
-namespace bangazon.Migrations
+namespace Bangazon.Migrations
 {
     [DbContext(typeof(BangazonContext))]
-    [Migration("20180124165004_InitialDB")]
-    partial class InitialDB
+    [Migration("20180124171809_INITIALDB")]
+    partial class INITIALDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,7 +26,8 @@ namespace bangazon.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("DateCreated")
-                        .ValueGeneratedOnAddOrUpdate();
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasDefaultValueSql("strftime('%Y-%m-%d %H:%M:%S')");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
