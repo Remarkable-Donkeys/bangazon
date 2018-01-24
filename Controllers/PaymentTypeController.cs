@@ -28,7 +28,7 @@ namespace Bangazon.Controllers
             return Ok(payment_types);
         }
 
-        // GET single payment type: bangazon/PaymentType/[p]
+        // GET single payment type: api/PaymentType/[p]
         [HttpGet("{id}", Name = "GetSinglePaymentType")]
         public IActionResult Get(int id)
         {
@@ -84,7 +84,7 @@ namespace Bangazon.Controllers
             return CreatedAtRoute("GetSinglePaymentType", new { id = payment_type.PaymentTypeId }, payment_type);
         }
 
-        // PUT api/values/5
+        // PUT api/values/[p]
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody]PaymentType payment_type)
         {
@@ -121,19 +121,19 @@ namespace Bangazon.Controllers
             return new StatusCodeResult(StatusCodes.Status204NoContent);
         }
 
-        // DELETE api/values/5
+        // DELETE api/values/[p]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            Album album = _context.Album.Single(g => g.AlbumId == id);
+            PaymentType payment_type = _context.PaymentType.Single(p => p.PaymentTypeId == id);
 
-            if (album == null)
+            if (payment_type == null)
             {
                 return NotFound();
             }
-            _context.Album.Remove(album);
+            _context.PaymentType.Remove(payment_type);
             _context.SaveChanges();
-            return Ok(album);
+            return Ok(payment_type);
         }
 
         //checks to see if the PaymentType exists

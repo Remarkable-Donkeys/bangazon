@@ -8,7 +8,7 @@ namespace Bangazon.Models
     public class Employee
     {
         [Key]
-        public int EmployeeId { get; set }
+        public int EmployeeId { get; set; }
 
         [Required]
         [StringLength(55)]
