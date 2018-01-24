@@ -11,7 +11,7 @@ namespace Bangazon.Data
 
         public DbSet<Customer> Customer { get; set; }
         // public DbSet<ProductType> ProductyType { get; set; }
-        // public DbSet<PaymentType> PaymentType { get; set; }
+        public DbSet<PaymentType> PaymentType { get; set; }
         // public DbSet<Products> Products { get; set; }
         // public DbSet<ShoppingCart> ShoppingCart { get; set; }
         // public DbSet<Departments> Departments { get; set; }
