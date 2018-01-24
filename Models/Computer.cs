@@ -1,4 +1,4 @@
-namespace bangazon.Models
+namespace Bangazon.Models
 {
     public class Computer
     {
