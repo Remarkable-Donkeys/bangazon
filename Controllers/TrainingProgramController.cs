@@ -53,7 +53,33 @@ namespace Bangazon.Controllers
             }
         }
 
-        // POST api/values
+        // GET single employee training relationship
+        [HttpGet("{id}", Name = "GetSingleEmployeeTrainging")]
+        public IActionResult GetEmployeeTraining(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                EmployeeTraining employee_training = _context.EmployeeTraining.Single(p => p.EmployeeTrainingId == id);
+
+                if (employee_training == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(employee_training);
+            }
+            catch (System.InvalidOperationException ex)
+            {
+                return NotFound();
+            }
+        }
+
+        // POST training program to database
         [HttpPost]
         public IActionResult Post([FromBody]TrainingProgram training_program)
         {
@@ -80,8 +106,43 @@ namespace Bangazon.Controllers
                     throw;
                 }
             }
+
             return CreatedAtRoute("GetSingleTrainingProgram", new { id = training_program.TrainingProgramId }, training_program);
         }
+
+        //POST adding employee to training program
+        [HttpPost]
+        public IActionResult Post([FromBody]EmployeeTraining employee_training)
+        {
+            if (!ModelState.IsValid)
+            {
+                //if not valid data according to conditions then return the error
+                return BadRequest(ModelState);
+            }
+
+            //adds the employee training relationship to the joiner table
+            _context.EmployeeTraining.Add(employee_training);
+
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException)
+            {
+                if (EmployeeTrainingExists(employee_training.EmployeeTrainingId))
+                {
+                    return new StatusCodeResult(StatusCodes.Status409Conflict);
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            //returns the employee/training program relationship that was just added
+            return CreatedAtRoute("AddEmployeeToTraining", new { id = employee_training.EmployeeTrainingId }, employee_training);
+
+        }
+        
 
         // PUT api/values/[p]
         [HttpPut("{id}")]
@@ -146,6 +207,12 @@ namespace Bangazon.Controllers
         private bool TrainingProgramExists(int trainingProgramId)
         {
             return _context.TrainingProgram.Any(p => p.TrainingProgramId == trainingProgramId);
+        }
+
+        //checks to see if the employee is already attending the training
+        private bool EmployeeTrainingExists(int employeeTrainingId)
+        {
+            return _context.EmployeeTraining.Any(p => p.EmployeeTrainingId == employeeTrainingId);
         }
     }
 }
