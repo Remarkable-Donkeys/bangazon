@@ -27,5 +27,6 @@ namespace Bangazon.Models
         public DateTime ReturnDate { get; set; }
 
 
+
     }
 }

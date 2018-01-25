@@ -1,24 +1,22 @@
-
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-
 namespace Bangazon.Models
 {
-    public class Computer
+    public class OrderedProduct
     {
+
         [Key]
-        public int ComputerId {get;set;}
+        public int OrderedProductId { get; set; }
 
         [Required]
-        public DateTime DatePurchased {get;set;}
-
+        public int ShoppingCartId {get; set;}
+    
         [Required]
-        public DateTime DateDecommisioned {get;set;}
+        public int ProductId {get; set;}
+        public Product Product {get;set;}
 
-        [Required]
-        public bool Functioning {get;set;}
     }
 }
