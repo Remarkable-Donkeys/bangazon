@@ -10,11 +10,15 @@ using Bangazon.Models;
 
 namespace Bangazon.Controllers
 {
+    [Route("api/[controller]")]
     public class TrainingProgramController : Controller
     {
         private BangazonContext _context;
         // Constructor method to create an instance of context to communicate with our database.
-        
+        public TrainingProgramController(BangazonContext ctx)
+        {
+            _context = ctx;
+        }
         //gets list of training programs
         [HttpGet]
         public IActionResult Get()
