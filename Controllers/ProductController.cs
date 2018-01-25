@@ -20,14 +20,14 @@ namespace Bangazon.Controllers
             _context = ctx;
         }
 
-        // GET list of products
+        // GET list of all products
         [HttpGet]
         public IActionResult Get()
         {
             var products = _context.Product.ToList();
             if (products == null)
             {
-                return NotFound();
+                return Ok();
             }
             return Ok(products);
         }
