@@ -20,6 +20,7 @@ namespace Bangazon.Data
         public DbSet<Employee> Employee { get; set; }
         public DbSet<EmployeeComputer> EmployeeComputer { get; set; }
         public DbSet<OrderedProduct> OrderedProduct { get; set; }
+        public DbSet<EmployeeTraining> EmployeeTraining { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
