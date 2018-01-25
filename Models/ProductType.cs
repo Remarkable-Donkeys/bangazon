@@ -1,7 +1,7 @@
-namespace Bangazon.Models
-{
-    public class ProductType
-    {
+// namespace Bangazon.Models
+// {
+//     public class ProductType
+//     {
         
-    }
-}
+//     }
+// }
