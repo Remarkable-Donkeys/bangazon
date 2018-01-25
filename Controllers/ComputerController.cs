@@ -10,6 +10,7 @@ using Bangazon.Models;
 
 namespace Bangazon.Controllers
 {
+    [Route("api/[controller]")]
 	public class ComputerConrtoller : Controller
 	{
 		private BangazonContext _context;
