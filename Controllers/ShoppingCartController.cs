@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +10,11 @@ using Bangazon.Models;
 
 namespace Bangazon.Controllers
 {
-	public class DepartmentController: Controller
+	public class ShoppingCartConrtoller : Controller
 	{
-
 		private BangazonContext _context;
 
-		public DepartmentController(BangazonContext ctx)
+		public ShoppingCartConrtoller(BangazonContext ctx)
 		{
 			_context = ctx;
 		}
@@ -25,17 +23,17 @@ namespace Bangazon.Controllers
 		[HttpGet]
 		public IActionResult Get()
 		{
-			var departments = _context.Department.ToList();
-			if (departments == null)
+			var shoppingcarts = _context.ShoppingCart.ToList();
+			if (shoppingcarts == null)
 			{
 				return NotFound();
 			}
-			return Ok(departments);
+			return Ok(shoppingcarts);
 		}
 
 
 		// GET api/customer/5
-		[HttpGet("{id}", Name = "GetSingleDepartment")]
+		[HttpGet("{id}", Name = "GetSingleShoppingCart")]
 		public IActionResult Get(int id)
 		{
 			if (!ModelState.IsValid)
@@ -45,14 +43,14 @@ namespace Bangazon.Controllers
 
 			try
 			{
-				Department department = _context.Department.Single(g => g.DepartmentId == id);
+				ShoppingCart shoppingcart = _context.ShoppingCart.Single(g => g.ShoppingCartId == id);
 
-				if (department == null)
+				if (shoppingcart == null)
 				{
 					return NotFound();
 				}
 
-				return Ok(department);
+				return Ok(shoppingcart);
 			}
 			catch (System.InvalidOperationException ex)
 			{
@@ -62,14 +60,14 @@ namespace Bangazon.Controllers
 
 		// POST api/customer
 		[HttpPost]
-		public IActionResult Post([FromBody]Department department)
+		public IActionResult Post([FromBody]ShoppingCart shoppingcart)
 		{
 			if (!ModelState.IsValid)
 			{
 				return BadRequest(ModelState);
 			}
 
-			_context.Department.Add(department);
+			_context.ShoppingCart.Add(shoppingcart);
 
 			try
 			{
@@ -77,7 +75,7 @@ namespace Bangazon.Controllers
 			}
 			catch (DbUpdateException)
 			{
-				if (DepartmentExists(department.DepartmentId))
+				if (ShoppingCartExists(shoppingcart.ShoppingCartId))
 				{
 					return new StatusCodeResult(StatusCodes.Status409Conflict);
 				}
@@ -86,30 +84,30 @@ namespace Bangazon.Controllers
 					throw;
 				}
 			}
-			return CreatedAtRoute("GetSingleDepartment", new { id = department.DepartmentId }, department);
+			return CreatedAtRoute("GetSingleShoppingCart", new { id = shoppingcart.ShoppingCartId }, shoppingcart);
 		}
 
 		// PUT api/customer/5
 		[HttpPut("{id}")]
-		public IActionResult Put(int id, [FromBody]Department department)
+		public IActionResult Put(int id, [FromBody]ShoppingCart shoppingcart)
 		{
 			if (!ModelState.IsValid)
 			{
 				return BadRequest(ModelState);
 			}
 
-			if (id != department.DepartmentId)
+			if (id != shoppingcart.ShoppingCartId)
 			{
 				return BadRequest();
 			}
-			_context.Department.Update(department);
+			_context.ShoppingCart.Update(shoppingcart);
 			try
 			{
 				_context.SaveChanges();
 			}
 			catch (DbUpdateConcurrencyException)
 			{
-				if (!DepartmentExists(id))
+				if (!ShoppingCartExists(id))
 				{
 					return NotFound();
 				}
@@ -122,9 +120,9 @@ namespace Bangazon.Controllers
 			return new StatusCodeResult(StatusCodes.Status204NoContent);
 		}
 
-		private bool DepartmentExists(int departmentId)
+		private bool ShoppingCartExists(int shoppingcartId)
 		{
-			return _context.Department.Any(g => g.DepartmentId == departmentId);
+			return _context.ShoppingCart.Any(g => g.ShoppingCartId == shoppingcartId);
 		}
 	}
 }
