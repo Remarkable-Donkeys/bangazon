@@ -11,29 +11,29 @@ using Bangazon.Models;
 namespace Bangazon.Controllers
 {
     [Route("api/[controller]")]
-    public class ProductController : Controller
+    public class ProductTypeController : Controller
     {
         private BangazonContext _context;
         // Constructor method to create an instance of context to communicate with our database.
-        public ProductController(BangazonContext ctx)
+        public ProductTypeController(BangazonContext ctx)
         {
             _context = ctx;
         }
 
-        // GET list of all products
+        // GET list of product types
         [HttpGet]
         public IActionResult Get()
         {
-            var products = _context.Product.ToList();
-            if (products == null)
+            var productTypes = _context.ProductType.ToList();
+            if (productTypes == null)
             {
-                return Ok();
+                return NotFound();
             }
-            return Ok(products);
+            return Ok(productTypes);
         }
 
-        // GET single product
-        [HttpGet("{id}", Name = "GetSingleProduct")]
+        // GET single product type
+        [HttpGet("{id}", Name = "GetSingleProductType")]
         public IActionResult Get(int id)
         {
             if (!ModelState.IsValid)
@@ -42,13 +42,13 @@ namespace Bangazon.Controllers
             }
             try
             {
-                Product product = _context.Product.Single(p => p.ProductId == id);
+                ProductType productType = _context.ProductType.Single(p => p.ProductTypeId == id);
 
-                if (product == null)
+                if (productType == null)
                 {
                     return NotFound();
                 }
-                return Ok(product);
+                return Ok(productType);
             }
             catch (System.InvalidOperationException ex)
             {
@@ -58,13 +58,13 @@ namespace Bangazon.Controllers
 
         // POST api/values
         [HttpPost]
-        public IActionResult Post([FromBody]Product product)
+        public IActionResult Post([FromBody]ProductType productType)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            _context.Product.Add(product);
+            _context.ProductType.Add(productType);
 
             try
             {
@@ -72,7 +72,7 @@ namespace Bangazon.Controllers
             }
             catch (DbUpdateException)
             {
-                if (ProductExists(product.ProductId))
+                if (ProductTypeExists(productType.ProductTypeId))
                 {
                     return new StatusCodeResult(StatusCodes.Status409Conflict);
                 }
@@ -81,28 +81,28 @@ namespace Bangazon.Controllers
                     throw;    
                 }
             }
-            return CreatedAtRoute("GetSingleProduct", new { id = product.ProductId }, product);
+            return CreatedAtRoute("GetSingleProductType", new { id = productType.ProductTypeId }, productType);
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody]Product product)
+        public IActionResult Put(int id, [FromBody]ProductType productType)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            if (id != product.ProductId)
+            if (id != productType.ProductTypeId)
             {
                 return BadRequest();
             }
-            _context.Product.Update(product);
+            _context.ProductType.Update(productType);
             try{
                 _context.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ProductExists(id))
+                if (!ProductTypeExists(id))
                 {
                     return NotFound();
                 }
@@ -118,20 +118,20 @@ namespace Bangazon.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            Product product = _context.Product.Single(p => p.ProductId == id);
+            ProductType productType = _context.ProductType.Single(p => p.ProductTypeId == id);
 
-            if (product == null)
+            if (productType == null)
             {
                 return NotFound();
             }
-            _context.Product.Remove(product);
+            _context.ProductType.Remove(productType);
             _context.SaveChanges();
-            return Ok(product);
+            return Ok(productType);
         }
 
-        private bool ProductExists(int productId)
+        private bool ProductTypeExists(int productTypeId)
         {
-            return _context.Product.Any(p => p.ProductId == productId);
+            return _context.ProductType.Any(p => p.ProductTypeId == productTypeId);
         }
     }
 }
