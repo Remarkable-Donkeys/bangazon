@@ -10,7 +10,9 @@ namespace Bangazon.Data
         { }
 
         public DbSet<Customer> Customer { get; set; }
-        public DbSet<ProductType> ProductyType { get; set; }
+
+        public DbSet<ProductType> ProductType { get; set; }
+
         public DbSet<PaymentType> PaymentType { get; set; }
         public DbSet<Product> Product { get; set; }
         public DbSet<ShoppingCart> ShoppingCart { get; set; }
@@ -19,7 +21,7 @@ namespace Bangazon.Data
         public DbSet<Computer> Computer { get; set; }
         public DbSet<Employee> Employee { get; set; }
         public DbSet<EmployeeComputer> EmployeeComputer { get; set; }
-
+        public DbSet<OrderedProduct> OrderedProduct { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
