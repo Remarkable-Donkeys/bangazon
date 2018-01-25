@@ -28,7 +28,7 @@ namespace Bangazon.Controllers
             var employees = _context.Employee.ToList();
             if (employees == null)
             {
-                return NotFound();
+                return Ok();
             }
             return Ok(employees);
         }
@@ -89,7 +89,7 @@ namespace Bangazon.Controllers
         }
 
         //PUT api/employee/5
-        [HttpPut("{id")]
+        [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody]Employee employee)
         {
             if (!ModelState.IsValid)
@@ -125,6 +125,8 @@ namespace Bangazon.Controllers
         {
             return _context.Employee.Any(g => g.EmployeeId == employeeId);
         }
+
+        
 
     }
 }

@@ -21,6 +21,7 @@ namespace Bangazon.Data
         public DbSet<EmployeeComputer> EmployeeComputer { get; set; }
 
 
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Customer>()
