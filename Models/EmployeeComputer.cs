@@ -1,7 +1,7 @@
-// namespace Bangazon.Models
-// {
-//     public class EmployeeComputer
-//     {
+namespace Bangazon.Models
+{
+    public class EmployeeComputer
+    {
         
-//     }
-// }
+    }
+}

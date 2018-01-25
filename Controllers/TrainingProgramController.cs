@@ -139,7 +139,7 @@ namespace Bangazon.Controllers
                 }
             }
             //returns the employee/training program relationship that was just added
-            return CreatedAtRoute("AddEmployeeToTraining", new { id = employee_training.EmployeeTrainingId }, employee_training);
+            return CreatedAtRoute("GetSingleEmployeeTrainging", new { id = employee_training.EmployeeTrainingId }, employee_training);
 
         }
         
@@ -201,6 +201,25 @@ namespace Bangazon.Controllers
             } 
 
             return new StatusCodeResult(StatusCodes.Status204NoContent);
+        }
+
+        // DELETE remove an employee from a training program
+        [HttpDelete("{id}")]
+        public IActionResult DeleteEmployeeTraining(int id)
+        {
+            EmployeeTraining employee_training = _context.EmployeeTraining.Single(p => p.EmployeeTrainingId == id);
+
+            DateTime today = DateTime.Today;
+
+            if (employee_training == null)
+            {
+                return NotFound();
+            }
+            
+            _context.EmployeeTraining.Remove(employee_training);
+            _context.SaveChanges();
+            return Ok(employee_training);
+
         }
 
         //checks to see if the TrainingProgram exists
