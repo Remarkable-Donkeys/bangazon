@@ -10,11 +10,10 @@ namespace Bangazon.Models
         [Key]
         public int ProductId { get; set; }
 
+        // date product is added 
         [Required]
         [DataType(DataType.Date)]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-
-        // date product is added 
         public DateTime DateAdded { get; set; }
 
         [Required]
@@ -31,10 +30,15 @@ namespace Bangazon.Models
         [Required]
         public int Quantity { get; set; }
 
-        // customer Id represents user who created the product
+        // foreign key customer Id represents user who created the product
         [Required]
-        public string CustomerId { get; set; }
+        public int CustomerId { get; set; }
         public Customer Customer { get; set; } 
+
+        // foreign key for product type
+        [Required]
+        public int ProductTypeId { get; set; }
+        public ProductType ProductType { get; set; } 
 
     }
 }
