@@ -13,7 +13,6 @@ namespace Bangazon.Models
         [Required]
         public DateTime DatePurchased {get;set;}
 
-        [Required]
         public DateTime DateDecommisioned {get;set;}
 
         [Required]

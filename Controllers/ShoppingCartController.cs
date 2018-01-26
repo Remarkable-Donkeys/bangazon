@@ -11,11 +11,11 @@ using Bangazon.Models;
 namespace Bangazon.Controllers
 {
     [Route("api/[controller]")]
-	public class ShoppingCartConrtoller : Controller
+	public class ShoppingCartController : Controller
 	{
 		private BangazonContext _context;
 
-		public ShoppingCartConrtoller(BangazonContext ctx)
+		public ShoppingCartController(BangazonContext ctx)
 		{
 			_context = ctx;
 		}
@@ -46,12 +46,41 @@ namespace Bangazon.Controllers
 			{
 				ShoppingCart shoppingcart = _context.ShoppingCart.Single(g => g.ShoppingCartId == id);
 
+                shoppingcart.OrderedProducts = _context.OrderedProduct.FromSql($"Select * From OrderedProducts Where ShoppingCartId = {shoppingcart.ShoppingCartId}").ToList();
+
 				if (shoppingcart == null)
 				{
 					return NotFound();
 				}
 
 				return Ok(shoppingcart);
+			}
+			catch (System.InvalidOperationException ex)
+			{
+				return NotFound();
+			}
+		}
+
+
+		public IActionResult Post([FromBody]OrderedProduct op)
+		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+
+			try
+			{
+				ShoppingCart shoppingcart = _context.ShoppingCart.Single(g => g.ShoppingCartId == op.ShoppingCartId);
+				Product product = _context.Product.Single(g => g.ProductId == op.ProductId);
+
+				if (shoppingcart == null || product == null)
+				{
+					return NotFound();
+				}
+
+                _context.OrderedProduct.Add(op);
+				return CreatedAtRoute("GetSingleShoppingCart", new { id = op.ShoppingCartId }, shoppingcart);
 			}
 			catch (System.InvalidOperationException ex)
 			{

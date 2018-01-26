@@ -13,7 +13,6 @@ namespace Bangazon.Models
 		[Required]
 		public DateTime DateCreated { get; set; }
 
-		[Required]
 		public DateTime DateOrdered { get; set; }
 
 		[Required]

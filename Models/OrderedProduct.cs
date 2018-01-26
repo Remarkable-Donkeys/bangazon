@@ -12,6 +12,7 @@ namespace Bangazon.Models
 
         [Required]
         public int ShoppingCartId {get; set;}
+        public ShoppingCart ShoppingCart {get;set;}
     
         [Required]
         public int ProductId {get; set;}
