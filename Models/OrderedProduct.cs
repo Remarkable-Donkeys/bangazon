@@ -3,22 +3,20 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-
-
 namespace Bangazon.Models
 {
-    public class Department
+    public class OrderedProduct
     {
 
         [Key]
-        public int DepartmentId {get;set;}
+        public int OrderedProductId { get; set; }
 
         [Required]
-        [StringLength(25)]
-        public string Name {get;set;}
-
+        public int ShoppingCartId {get; set;}
+    
         [Required]
-        public int Budget {get;set;}
+        public int ProductId {get; set;}
+        public Product Product {get;set;}
 
     }
 }

@@ -11,42 +11,44 @@ using Bangazon.Models;
 namespace Bangazon.Controllers
 {
     [Route("api/[controller]")]
-    public class PaymentTypeController : Controller
+    public class ProductTypeController : Controller
     {
         private BangazonContext _context;
         // Constructor method to create an instance of context to communicate with our database.
-        
-        //gets list of payment types
+        public ProductTypeController(BangazonContext ctx)
+        {
+            _context = ctx;
+        }
+
+        // GET list of product types
         [HttpGet]
         public IActionResult Get()
         {
-            var payment_types = _context.PaymentType.ToList();
-            if (payment_types == null)
+            var productTypes = _context.ProductType.ToList();
+            if (productTypes == null)
             {
                 return NotFound();
             }
-            return Ok(payment_types);
+            return Ok(productTypes);
         }
 
-        // GET single payment type: api/PaymentType/[p]
-        [HttpGet("{id}", Name = "GetSinglePaymentType")]
+        // GET single product type
+        [HttpGet("{id}", Name = "GetSingleProductType")]
         public IActionResult Get(int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
             try
             {
-                PaymentType payment_type = _context.PaymentType.Single(p => p.PaymentTypeId == id);
+                ProductType productType = _context.ProductType.Single(p => p.ProductTypeId == id);
 
-                if (payment_type == null)
+                if (productType == null)
                 {
                     return NotFound();
                 }
-
-                return Ok(payment_type);
+                return Ok(productType);
             }
             catch (System.InvalidOperationException ex)
             {
@@ -56,15 +58,13 @@ namespace Bangazon.Controllers
 
         // POST api/values
         [HttpPost]
-        public IActionResult Post([FromBody]PaymentType payment_type)
+        public IActionResult Post([FromBody]ProductType productType)
         {
             if (!ModelState.IsValid)
             {
-                //if not valid data according to conditions then return the error
                 return BadRequest(ModelState);
             }
-
-            _context.PaymentType.Add(payment_type);
+            _context.ProductType.Add(productType);
 
             try
             {
@@ -72,43 +72,37 @@ namespace Bangazon.Controllers
             }
             catch (DbUpdateException)
             {
-                if (PaymentTypeExists(payment_type.PaymentTypeId))
+                if (ProductTypeExists(productType.ProductTypeId))
                 {
                     return new StatusCodeResult(StatusCodes.Status409Conflict);
                 }
                 else
                 {
-                    throw;
+                    throw;    
                 }
             }
-            return CreatedAtRoute("GetSinglePaymentType", new { id = payment_type.PaymentTypeId }, payment_type);
+            return CreatedAtRoute("GetSingleProductType", new { id = productType.ProductTypeId }, productType);
         }
 
-        // PUT api/values/[p]
+        // PUT api/values/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody]PaymentType payment_type)
+        public IActionResult Put(int id, [FromBody]ProductType productType)
         {
-            //checks to see if input is valid
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            if (id != payment_type.PaymentTypeId)
+            if (id != productType.ProductTypeId)
             {
                 return BadRequest();
             }
-
-            //try to update the specfic payment type
-            _context.PaymentType.Update(payment_type);
-            try
-            {
+            _context.ProductType.Update(productType);
+            try{
                 _context.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
-                //if id does not exist return BadRequest
-                if (!PaymentTypeExists(id))
+                if (!ProductTypeExists(id))
                 {
                     return NotFound();
                 }
@@ -117,29 +111,27 @@ namespace Bangazon.Controllers
                     throw;
                 }
             }
-
             return new StatusCodeResult(StatusCodes.Status204NoContent);
         }
 
-        // DELETE api/values/[p]
+        // DELETE api/values/5
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            PaymentType payment_type = _context.PaymentType.Single(p => p.PaymentTypeId == id);
+            ProductType productType = _context.ProductType.Single(p => p.ProductTypeId == id);
 
-            if (payment_type == null)
+            if (productType == null)
             {
                 return NotFound();
             }
-            _context.PaymentType.Remove(payment_type);
+            _context.ProductType.Remove(productType);
             _context.SaveChanges();
-            return Ok(payment_type);
+            return Ok(productType);
         }
 
-        //checks to see if the PaymentType exists
-        private bool PaymentTypeExists(int paymentTypeId)
+        private bool ProductTypeExists(int productTypeId)
         {
-            return _context.PaymentType.Any(p => p.PaymentTypeId == paymentTypeId);
+            return _context.ProductType.Any(p => p.ProductTypeId == productTypeId);
         }
     }
 }
