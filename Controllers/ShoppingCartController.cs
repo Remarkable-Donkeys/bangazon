@@ -20,7 +20,7 @@ namespace Bangazon.Controllers
 			_context = ctx;
 		}
 
-		//GET api/customer
+		//GET api/shoppingcart
 		[HttpGet]
 		public IActionResult Get()
 		{
@@ -33,7 +33,7 @@ namespace Bangazon.Controllers
 		}
 
 
-		// GET api/customer/5
+		// GET api/shoppingcart/5
 		[HttpGet("{id}", Name = "GetSingleShoppingCart")]
 		public IActionResult Get(int id)
 		{
@@ -46,7 +46,7 @@ namespace Bangazon.Controllers
 			{
 				ShoppingCart shoppingcart = _context.ShoppingCart.Single(g => g.ShoppingCartId == id);
 
-				shoppingcart.OrderedProducts = _context.OrderedProduct.FromSql($"Select * From OrderedProducts").ToList();
+				//shoppingcart.OrderedProducts = _context.OrderedProduct.FromSql($"Select * From OrderedProduct, Where ShoppingCartId = {id}").ToList();
 
 				if (shoppingcart == null)
 				{
@@ -105,7 +105,7 @@ namespace Bangazon.Controllers
 			}
 		}
 
-		// POST api/customer
+		// POST api/shoppingcart
 		[HttpPost]
 		public IActionResult Post([FromBody]ShoppingCart shoppingcart)
 		{
@@ -134,7 +134,7 @@ namespace Bangazon.Controllers
 			return CreatedAtRoute("GetSingleShoppingCart", new { id = shoppingcart.ShoppingCartId }, shoppingcart);
 		}
 
-		// PUT api/customer/5
+		// PUT api/shoppingcart/5
 		[HttpPut("{id}")]
 		public IActionResult Put(int id, [FromBody]ShoppingCart shoppingcart)
 		{
@@ -183,7 +183,7 @@ namespace Bangazon.Controllers
 			return Ok(shoppingCart);
 		}
 
-		// DELETE remove an employee from a training program
+		// DELETE remove an product from a shoppingcart
 		[HttpDelete("product/{id}")]
 		public IActionResult DeleteEmployeeTraining(int id)
 		{
