@@ -61,7 +61,6 @@ namespace Bangazon.Controllers
 			}
 		}
 
-
 		[HttpPost("product")]
 		public IActionResult Post([FromBody]OrderedProduct op)
 		{

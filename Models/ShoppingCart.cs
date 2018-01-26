@@ -19,7 +19,6 @@ namespace Bangazon.Models
 		public int CustomerId { get; set; }
 		public Customer Customer { get; set; }
 
-		[Required]
 		public int PaymentTypeId { get; set; }
 		public PaymentType PaymentType { get; set; }
 

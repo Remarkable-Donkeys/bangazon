@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,13 +10,11 @@ using Bangazon.Models;
 
 namespace Bangazon.Controllers
 {
-  [Route("api/[controller]")]
-	public class DepartmentController: Controller
+	public class ComputerConrtoller : Controller
 	{
-
 		private BangazonContext _context;
 
-		public DepartmentController(BangazonContext ctx)
+		public ComputerConrtoller(BangazonContext ctx)
 		{
 			_context = ctx;
 		}
@@ -26,17 +23,17 @@ namespace Bangazon.Controllers
 		[HttpGet]
 		public IActionResult Get()
 		{
-			var departments = _context.Department.ToList();
-			if (departments == null)
+			var computers = _context.Computer.ToList();
+			if (computers == null)
 			{
 				return NotFound();
 			}
-			return Ok(departments);
+			return Ok(computers);
 		}
 
 
 		// GET api/customer/5
-		[HttpGet("{id}", Name = "GetSingleDepartment")]
+		[HttpGet("{id}", Name = "GetSingleComputer")]
 		public IActionResult Get(int id)
 		{
 			if (!ModelState.IsValid)
@@ -46,14 +43,14 @@ namespace Bangazon.Controllers
 
 			try
 			{
-				Department department = _context.Department.Single(g => g.DepartmentId == id);
+				Computer computer = _context.Computer.Single(g => g.ComputerId == id);
 
-				if (department == null)
+				if (computer == null)
 				{
 					return NotFound();
 				}
 
-				return Ok(department);
+				return Ok(computer);
 			}
 			catch (System.InvalidOperationException ex)
 			{
@@ -63,14 +60,14 @@ namespace Bangazon.Controllers
 
 		// POST api/customer
 		[HttpPost]
-		public IActionResult Post([FromBody]Department department)
+		public IActionResult Post([FromBody]Computer computer)
 		{
 			if (!ModelState.IsValid)
 			{
 				return BadRequest(ModelState);
 			}
 
-			_context.Department.Add(department);
+			_context.Computer.Add(computer);
 
 			try
 			{
@@ -78,7 +75,7 @@ namespace Bangazon.Controllers
 			}
 			catch (DbUpdateException)
 			{
-				if (DepartmentExists(department.DepartmentId))
+				if (ComputerExists(computer.ComputerId))
 				{
 					return new StatusCodeResult(StatusCodes.Status409Conflict);
 				}
@@ -87,30 +84,30 @@ namespace Bangazon.Controllers
 					throw;
 				}
 			}
-			return CreatedAtRoute("GetSingleDepartment", new { id = department.DepartmentId }, department);
+			return CreatedAtRoute("GetSingleComputer", new { id = computer.ComputerId }, computer);
 		}
 
 		// PUT api/customer/5
 		[HttpPut("{id}")]
-		public IActionResult Put(int id, [FromBody]Department department)
+		public IActionResult Put(int id, [FromBody]Computer computer)
 		{
 			if (!ModelState.IsValid)
 			{
 				return BadRequest(ModelState);
 			}
 
-			if (id != department.DepartmentId)
+			if (id != computer.ComputerId)
 			{
 				return BadRequest();
 			}
-			_context.Department.Update(department);
+			_context.Computer.Update(computer);
 			try
 			{
 				_context.SaveChanges();
 			}
 			catch (DbUpdateConcurrencyException)
 			{
-				if (!DepartmentExists(id))
+				if (!ComputerExists(id))
 				{
 					return NotFound();
 				}
@@ -123,9 +120,9 @@ namespace Bangazon.Controllers
 			return new StatusCodeResult(StatusCodes.Status204NoContent);
 		}
 
-		private bool DepartmentExists(int departmentId)
+		private bool ComputerExists(int computerId)
 		{
-			return _context.Department.Any(g => g.DepartmentId == departmentId);
+			return _context.Computer.Any(g => g.ComputerId == computerId);
 		}
 	}
 }
