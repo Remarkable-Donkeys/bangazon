@@ -59,7 +59,7 @@ namespace Bangazon.Controllers
         }
 
         // GET single employee training relationship
-        [HttpGet("employee/{id}", Name = "GetSingleEmployeeTrainging")]
+        [HttpGet("employee/{id}", Name = "GetSingleEmployeeTraining")]
         public IActionResult GetEmployeeTraining(int id)
         {
             if (!ModelState.IsValid)
@@ -144,7 +144,7 @@ namespace Bangazon.Controllers
                 }
             }
             //returns the employee/training program relationship that was just added
-            return CreatedAtRoute("GetSingleEmployeeTrainging", new { id = employee_training.EmployeeTrainingId }, employee_training);
+            return CreatedAtRoute("GetSingleEmployeeTraining", new { id = employee_training.EmployeeTrainingId }, employee_training);
 
         }
         
