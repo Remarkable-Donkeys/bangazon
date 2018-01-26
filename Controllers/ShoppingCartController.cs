@@ -10,16 +10,17 @@ using Bangazon.Models;
 
 namespace Bangazon.Controllers
 {
-	public class ShoppingCartConrtoller : Controller
+	[Route("api/[controller]")]
+	public class ShoppingCartController : Controller
 	{
 		private BangazonContext _context;
 
-		public ShoppingCartConrtoller(BangazonContext ctx)
+		public ShoppingCartController(BangazonContext ctx)
 		{
 			_context = ctx;
 		}
 
-		//GET api/customer
+		//GET api/shoppingcart
 		[HttpGet]
 		public IActionResult Get()
 		{
@@ -32,7 +33,7 @@ namespace Bangazon.Controllers
 		}
 
 
-		// GET api/customer/5
+		// GET api/shoppingcart/5
 		[HttpGet("{id}", Name = "GetSingleShoppingCart")]
 		public IActionResult Get(int id)
 		{
@@ -44,6 +45,8 @@ namespace Bangazon.Controllers
 			try
 			{
 				ShoppingCart shoppingcart = _context.ShoppingCart.Single(g => g.ShoppingCartId == id);
+
+				//shoppingcart.OrderedProducts = _context.OrderedProduct.FromSql($"Select * From OrderedProduct, Where ShoppingCartId = {id}").ToList();
 
 				if (shoppingcart == null)
 				{
@@ -58,7 +61,50 @@ namespace Bangazon.Controllers
 			}
 		}
 
-		// POST api/customer
+		[HttpPost("product")]
+		public IActionResult Post([FromBody]OrderedProduct op)
+		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+
+			try
+			{
+				ShoppingCart shoppingcart = _context.ShoppingCart.Single(g => g.ShoppingCartId == op.ShoppingCartId);
+				Product product = _context.Product.Single(g => g.ProductId == op.ProductId);
+
+				if (shoppingcart == null || product == null)
+				{
+					return NotFound();
+				}
+
+				_context.OrderedProduct.Add(op);
+
+				try
+				{
+					_context.SaveChanges();
+				}
+				catch (DbUpdateException)
+				{
+					if (ShoppingCartExists(shoppingcart.ShoppingCartId))
+					{
+						return new StatusCodeResult(StatusCodes.Status409Conflict);
+					}
+					else
+					{
+						throw;
+					}
+				}
+				return CreatedAtRoute("GetSingleShoppingCart", new { id = op.ShoppingCartId }, shoppingcart);
+			}
+			catch (System.InvalidOperationException ex)
+			{
+				return NotFound();
+			}
+		}
+
+		// POST api/shoppingcart
 		[HttpPost]
 		public IActionResult Post([FromBody]ShoppingCart shoppingcart)
 		{
@@ -87,7 +133,7 @@ namespace Bangazon.Controllers
 			return CreatedAtRoute("GetSingleShoppingCart", new { id = shoppingcart.ShoppingCartId }, shoppingcart);
 		}
 
-		// PUT api/customer/5
+		// PUT api/shoppingcart/5
 		[HttpPut("{id}")]
 		public IActionResult Put(int id, [FromBody]ShoppingCart shoppingcart)
 		{
@@ -118,6 +164,39 @@ namespace Bangazon.Controllers
 			}
 
 			return new StatusCodeResult(StatusCodes.Status204NoContent);
+		}
+        
+		// DELETE api/values/[p]
+		[HttpDelete("{id}")]
+		public IActionResult Delete(int id)
+		{
+			ShoppingCart shoppingCart = _context.ShoppingCart.Single(p => p.ShoppingCartId == id);
+
+			if (shoppingCart == null)
+			{
+				return NotFound();
+			}
+
+			_context.ShoppingCart.Remove(shoppingCart);
+			_context.SaveChanges();
+			return Ok(shoppingCart);
+		}
+
+		// DELETE remove an product from a shoppingcart
+		[HttpDelete("product/{id}")]
+		public IActionResult DeleteEmployeeTraining(int id)
+		{
+			OrderedProduct op = _context.OrderedProduct.Single(p => p.OrderedProductId == id);
+
+			if (op == null)
+			{
+				return NotFound();
+			}
+
+			_context.OrderedProduct.Remove(op);
+			_context.SaveChanges();
+			return Ok(op);
+
 		}
 
 		private bool ShoppingCartExists(int shoppingcartId)

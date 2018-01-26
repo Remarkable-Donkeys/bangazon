@@ -28,10 +28,15 @@ namespace Bangazon.Data
             modelBuilder.Entity<Customer>()
                 .Property(b => b.DateCreated)
                 .HasDefaultValueSql("strftime('%Y-%m-%d %H:%M:%S')");
-
+            modelBuilder.Entity<ShoppingCart>()
+                .Property(b => b.DateCreated)
+                .HasDefaultValueSql("strftime('%Y-%m-%d %H:%M:%S')");
             // timestamp when a product is created
             modelBuilder.Entity<Product>()
                 .Property(b => b.DateAdded)
+                .HasDefaultValueSql("strftime('%Y-%m-%d %H:%M:%S')");
+            modelBuilder.Entity<EmployeeComputer>()
+                .Property(b => b.IssueDate)
                 .HasDefaultValueSql("strftime('%Y-%m-%d %H:%M:%S')");
         }
     }

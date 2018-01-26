@@ -11,6 +11,7 @@ using Bangazon.Models;
 
 namespace Bangazon.Controllers
 {
+  [Route("api/[controller]")]
 	public class DepartmentController: Controller
 	{
 
