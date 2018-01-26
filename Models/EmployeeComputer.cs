@@ -23,10 +23,7 @@ namespace Bangazon.Models
         public DateTime IssueDate { get; set; }
 
         [DataType(DataType.Date)]
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public DateTime ReturnDate { get; set; }
-
-
-
+       
+        public DateTime? ReturnDate { get; set; }
     }
 }
