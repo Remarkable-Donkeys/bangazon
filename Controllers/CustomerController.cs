@@ -102,6 +102,7 @@ namespace Bangazon.Controllers
             {
                 return BadRequest();
             }
+            
             _context.Customer.Update(customer);
             try
             {

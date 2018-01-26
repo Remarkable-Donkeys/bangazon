@@ -7,6 +7,7 @@ namespace Bangazon.Models
 {
     public class OrderedProduct
     {
+
         [Key]
         public int OrderedProductId { get; set; }
 
@@ -17,5 +18,6 @@ namespace Bangazon.Models
         [Required]
         public int ProductId {get; set;}
         public Product Product {get;set;}
+
     }
 }
