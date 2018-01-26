@@ -10,7 +10,7 @@ using Bangazon.Models;
 
 namespace Bangazon.Controllers
 {
-    [Route("api/[controller]")]
+	[Route("api/[controller]")]
 	public class ShoppingCartController : Controller
 	{
 		private BangazonContext _context;
@@ -46,7 +46,7 @@ namespace Bangazon.Controllers
 			{
 				ShoppingCart shoppingcart = _context.ShoppingCart.Single(g => g.ShoppingCartId == id);
 
-                shoppingcart.OrderedProducts = _context.OrderedProduct.FromSql($"Select * From OrderedProducts Where ShoppingCartId = {shoppingcart.ShoppingCartId}").ToList();
+				shoppingcart.OrderedProducts = _context.OrderedProduct.FromSql($"Select * From OrderedProducts").ToList();
 
 				if (shoppingcart == null)
 				{
@@ -62,6 +62,7 @@ namespace Bangazon.Controllers
 		}
 
 
+		[HttpPost("product")]
 		public IActionResult Post([FromBody]OrderedProduct op)
 		{
 			if (!ModelState.IsValid)
@@ -79,7 +80,23 @@ namespace Bangazon.Controllers
 					return NotFound();
 				}
 
-                _context.OrderedProduct.Add(op);
+				_context.OrderedProduct.Add(op);
+
+				try
+				{
+					_context.SaveChanges();
+				}
+				catch (DbUpdateException)
+				{
+					if (ShoppingCartExists(shoppingcart.ShoppingCartId))
+					{
+						return new StatusCodeResult(StatusCodes.Status409Conflict);
+					}
+					else
+					{
+						throw;
+					}
+				}
 				return CreatedAtRoute("GetSingleShoppingCart", new { id = op.ShoppingCartId }, shoppingcart);
 			}
 			catch (System.InvalidOperationException ex)
@@ -148,6 +165,39 @@ namespace Bangazon.Controllers
 			}
 
 			return new StatusCodeResult(StatusCodes.Status204NoContent);
+		}
+        
+		// DELETE api/values/[p]
+		[HttpDelete("{id}")]
+		public IActionResult Delete(int id)
+		{
+			ShoppingCart shoppingCart = _context.ShoppingCart.Single(p => p.ShoppingCartId == id);
+
+			if (shoppingCart == null)
+			{
+				return NotFound();
+			}
+
+			_context.ShoppingCart.Remove(shoppingCart);
+			_context.SaveChanges();
+			return Ok(shoppingCart);
+		}
+
+		// DELETE remove an employee from a training program
+		[HttpDelete("product/{id}")]
+		public IActionResult DeleteEmployeeTraining(int id)
+		{
+			OrderedProduct op = _context.OrderedProduct.Single(p => p.OrderedProductId == id);
+
+			if (op == null)
+			{
+				return NotFound();
+			}
+
+			_context.OrderedProduct.Remove(op);
+			_context.SaveChanges();
+			return Ok(op);
+
 		}
 
 		private bool ShoppingCartExists(int shoppingcartId)
