@@ -15,7 +15,10 @@ namespace Bangazon.Controllers
     {
         private BangazonContext _context;
         // Constructor method to create an instance of context to communicate with our database.
-        
+        public PaymentTypeController(BangazonContext ctx)
+        {
+            _context = ctx;
+        }
         //gets list of payment types
         [HttpGet]
         public IActionResult Get()

@@ -10,16 +10,21 @@ using Bangazon.Models;
 
 namespace Bangazon.Controllers
 {
+    [Route("api/[controller]")]
+
     public class TrainingProgramController : Controller
     {
         private BangazonContext _context;
         // Constructor method to create an instance of context to communicate with our database.
-        
+        public TrainingProgramController(BangazonContext ctx)
+        {
+            _context = ctx;
+        }
         //gets list of training programs
         [HttpGet]
         public IActionResult Get()
         {
-            var training_programs = _context.PaymentType.ToList();
+            var training_programs = _context.TrainingProgram.ToList();
             if (training_programs == null)
             {
                 return NotFound();
@@ -54,7 +59,7 @@ namespace Bangazon.Controllers
         }
 
         // GET single employee training relationship
-        [HttpGet("{id}", Name = "GetSingleEmployeeTrainging")]
+        [HttpGet("employee/{id}", Name = "GetSingleEmployeeTrainging")]
         public IActionResult GetEmployeeTraining(int id)
         {
             if (!ModelState.IsValid)
@@ -110,9 +115,9 @@ namespace Bangazon.Controllers
             return CreatedAtRoute("GetSingleTrainingProgram", new { id = training_program.TrainingProgramId }, training_program);
         }
 
-        //POST adding employee to training program
-        [HttpPost]
-        public IActionResult Post([FromBody]EmployeeTraining employee_training)
+        //POST adding employee to training program api/trainingprogram/[TrainingProgramId]
+        [HttpPost("employee/{id}")]
+        public IActionResult Post(int id, [FromBody]EmployeeTraining employee_training)
         {
             if (!ModelState.IsValid)
             {
@@ -204,7 +209,7 @@ namespace Bangazon.Controllers
         }
 
         // DELETE remove an employee from a training program
-        [HttpDelete("{id}")]
+        [HttpDelete("employee/{id}")]
         public IActionResult DeleteEmployeeTraining(int id)
         {
             EmployeeTraining employee_training = _context.EmployeeTraining.Single(p => p.EmployeeTrainingId == id);
