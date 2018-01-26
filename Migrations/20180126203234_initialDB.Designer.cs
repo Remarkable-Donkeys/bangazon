@@ -11,8 +11,8 @@ using System;
 namespace bangazon.Migrations
 {
     [DbContext(typeof(BangazonContext))]
-    [Migration("20180126160357_testingMigration2")]
-    partial class testingMigration2
+    [Migration("20180126203234_initialDB")]
+    partial class initialDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -83,8 +83,7 @@ namespace bangazon.Migrations
 
                     b.Property<int>("DepartmentId");
 
-                    b.Property<DateTime>("EndDate")
-                        .ValueGeneratedOnAddOrUpdate();
+                    b.Property<DateTime?>("EndDate");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -94,8 +93,7 @@ namespace bangazon.Migrations
                         .IsRequired()
                         .HasMaxLength(55);
 
-                    b.Property<DateTime>("StartDate")
-                        .ValueGeneratedOnAddOrUpdate();
+                    b.Property<DateTime>("StartDate");
 
                     b.Property<string>("Status")
                         .IsRequired();
@@ -119,10 +117,10 @@ namespace bangazon.Migrations
                     b.Property<int>("EmployeeId");
 
                     b.Property<DateTime>("IssueDate")
-                        .ValueGeneratedOnAddOrUpdate();
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasDefaultValueSql("strftime('%Y-%m-%d %H:%M:%S')");
 
-                    b.Property<DateTime>("ReturnDate")
-                        .ValueGeneratedOnAddOrUpdate();
+                    b.Property<DateTime?>("ReturnDate");
 
                     b.HasKey("EmployeeComputerId");
 
@@ -248,10 +246,9 @@ namespace bangazon.Migrations
                         .ValueGeneratedOnAdd()
                         .HasDefaultValueSql("strftime('%Y-%m-%d %H:%M:%S')");
 
-                    b.Property<DateTime?>("DateOrdered");
+                    b.Property<DateTime>("DateOrdered");
 
-                    b.Property<int?>("PaymentTypeId")
-                        .IsRequired();
+                    b.Property<int>("PaymentTypeId");
 
                     b.HasKey("ShoppingCartId");
 
