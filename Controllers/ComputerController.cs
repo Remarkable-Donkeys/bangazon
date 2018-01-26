@@ -59,6 +59,34 @@ namespace Bangazon.Controllers
 			}
 		}
 
+		[HttpPost("employee")]
+		public IActionResult Post([FromBody]EmployeeComputer empcomp)
+		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+
+			try
+			{
+				Employee employee = _context.Employee.Single(g => g.EmployeeId == empcomp.EmployeeId);
+				Computer computer = _context.Computer.Single(g => g.ComputerId == empcomp.ComputerId);
+
+				if (employee == null || computer == null)
+				{
+					return NotFound();
+				}
+
+				_context.EmployeeComputer.Add(empcomp);
+
+				_context.SaveChanges();
+				return CreatedAtRoute("GetSingleComputer", new { id = empcomp.ComputerId }, empcomp);
+			}
+			catch (System.InvalidOperationException ex)
+			{
+				return NotFound();
+			}
+		}
 		// POST api/customer
 		[HttpPost]
 		public IActionResult Post([FromBody]Computer computer)
@@ -119,6 +147,39 @@ namespace Bangazon.Controllers
 			}
 
 			return new StatusCodeResult(StatusCodes.Status204NoContent);
+		}
+
+		// DELETE api/values/[p]
+		[HttpDelete("{id}")]
+		public IActionResult Delete(int id)
+		{
+			Computer computer = _context.Computer.Single(p => p.ComputerId == id);
+
+			if (computer == null)
+			{
+				return NotFound();
+			}
+
+			_context.Computer.Remove(computer);
+			_context.SaveChanges();
+			return Ok(computer);
+		}
+
+		// DELETE remove a computer from an employee
+		[HttpDelete("employee/{id}")]
+		public IActionResult DeleteEmployeeTraining(int id)
+		{
+			EmployeeComputer empcomp = _context.EmployeeComputer.Single(p => p.EmployeeComputerId == id);
+
+			if (empcomp == null)
+			{
+				return NotFound();
+			}
+
+			_context.EmployeeComputer.Remove(empcomp);
+			_context.SaveChanges();
+			return Ok(empcomp);
+
 		}
 
 		private bool ComputerExists(int computerId)
