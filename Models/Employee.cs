@@ -29,12 +29,12 @@ namespace Bangazon.Models
 
         [Required]
         [DataType(DataType.Date)]
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        
         public DateTime StartDate { get; set; }
 
         [DataType(DataType.Date)]
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public DateTime EndDate { get; set; }
+        
+        public Nullable<DateTime> EndDate { get; set; }
 
     
     }
