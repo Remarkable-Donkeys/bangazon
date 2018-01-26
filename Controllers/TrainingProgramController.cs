@@ -115,9 +115,9 @@ namespace Bangazon.Controllers
             return CreatedAtRoute("GetSingleTrainingProgram", new { id = training_program.TrainingProgramId }, training_program);
         }
 
-        //POST adding employee to training program api/trainingprogram/[TrainingProgramId]
-        [HttpPost("employee/{id}")]
-        public IActionResult Post(int id, [FromBody]EmployeeTraining employee_training)
+        //POST adding employee to training program api/trainingprogram/employee
+        [HttpPost("employee")]
+        public IActionResult Post(string employee, [FromBody]EmployeeTraining employee_training)
         {
             if (!ModelState.IsValid)
             {
