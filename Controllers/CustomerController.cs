@@ -31,8 +31,12 @@ namespace Bangazon.Controllers
                 return NotFound();
             }
             return Ok(customers);
-        }
 
+            var innerjoinquery = 
+            from cust in Customer
+            join shopping in ShoppingCart on cust.CustomerId equals shopping.CustomerId
+            select new { }
+        }
 
         // GET api/customer/5
         [HttpGet("{id}", Name = "GetSingleCustomer")]
