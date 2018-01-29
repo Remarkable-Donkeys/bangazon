@@ -22,7 +22,7 @@ namespace Bangazon.Models
 		public int CustomerId { get; set; }
 		public Customer Customer { get; set; }
 
-		public int PaymentTypeId { get; set; }
+		public int? PaymentTypeId { get; set; }
 		public PaymentType PaymentType { get; set; }
 
 		public ICollection<OrderedProduct> OrderedProducts {get;set;}

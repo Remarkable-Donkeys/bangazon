@@ -9,8 +9,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Bangazon.Data;
 using Microsoft.EntityFrameworkCore;
+using Swashbuckle.AspNetCore.Swagger;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+
 
 namespace Bangazon
 {
@@ -42,14 +44,24 @@ namespace Bangazon
 			});
 
 			// Add framework services.
-			services.AddMvc();
-
-
-			services.AddMvc().AddJsonOptions(options =>
+      services.AddMvc().AddJsonOptions(options =>
 			{
 				options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 				options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
 			});
+      
+            string path = System.Environment.GetEnvironmentVariable("BANGAZON");
+            var connection = $"Filename={path}";
+            Console.WriteLine($"connection = {connection}");
+            services.AddDbContext<BangazonContext>(options => options.UseSqlite(connection));
+
+            // Register the Swagger generator, defining one or more Swagger documents
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "Bangazon API", Version = "v1" });
+            });
+        }
+
 
             
 			string path = System.Environment.GetEnvironmentVariable("BANGAZON");
@@ -65,11 +77,25 @@ namespace Bangazon
 
 			Console.WriteLine("Configure");
 
-			loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-			loggerFactory.AddDebug();
+      loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+      loggerFactory.AddDebug();
+      
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
 
-			app.UseMvc();
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
+            
+            
 
-		}
-	}
+            app.UseMvc();
+
+
+
+        }
+    }
+
 }
