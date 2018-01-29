@@ -1,3 +1,5 @@
+/*author: Kristen Norris
+purpose: model schema for database for Employee/Training joiner table */
 using System.ComponentModel.DataAnnotations;
 
 namespace Bangazon.Models
