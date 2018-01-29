@@ -8,29 +8,56 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Bangazon.Data;
 using Bangazon.Models;
+using System.Collections.Specialized;
 
 namespace Bangazon.Controllers
 {
     [Route("api/[controller]")]
+
     public class CustomerController : Controller
     {
+
         private BangazonContext _context;
 
         public CustomerController(BangazonContext ctx)
         {
             _context = ctx;
         }
-        
+
         //GET api/customer
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get(bool? active)
         {
-            var customers = _context.Customer.ToList();
-            if (customers == null)
+            //returns all customers
+            if (active == null)
             {
-                return NotFound();
+                var customers = _context.Customer.ToList();
+                if (customers == null)
+                {
+                    return NotFound();
+                }
+                return Ok(customers);
             }
-            return Ok(customers);
+            //if the query string of active=false is found the API returns only innactive customers
+            else
+            {
+                //query for all customers that have a shopping cart with a paymentId
+                var activeCustomer =
+                from s in _context.ShoppingCart
+                join c in _context.Customer on s.CustomerId equals c.CustomerId
+                select c;
+
+                //a list of customers that have never placed an order
+                var innactiveCustomers = _context.Customer.Except(activeCustomer);
+
+                return Ok(innactiveCustomers);
+
+            }
+
+
+
+
+
         }
 
 
@@ -59,6 +86,7 @@ namespace Bangazon.Controllers
                 return NotFound();
             }
         }
+
 
         // POST api/customer
         [HttpPost]
@@ -102,7 +130,7 @@ namespace Bangazon.Controllers
             {
                 return BadRequest();
             }
-            
+
             _context.Customer.Update(customer);
             try
             {
