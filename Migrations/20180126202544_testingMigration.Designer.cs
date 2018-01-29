@@ -11,7 +11,7 @@ using System;
 namespace bangazon.Migrations
 {
     [DbContext(typeof(BangazonContext))]
-    [Migration("20180126191759_testingMigration")]
+    [Migration("20180126202544_testingMigration")]
     partial class testingMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -120,8 +120,7 @@ namespace bangazon.Migrations
                         .ValueGeneratedOnAddOrUpdate()
                         .HasDefaultValueSql("strftime('%Y-%m-%d %H:%M:%S')");
 
-                    b.Property<DateTime>("ReturnDate")
-                        .ValueGeneratedOnAddOrUpdate();
+                    b.Property<DateTime?>("ReturnDate");
 
                     b.HasKey("EmployeeComputerId");
 

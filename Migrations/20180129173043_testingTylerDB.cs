@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace bangazon.Migrations
 {
-    public partial class testingMigration : Migration
+    public partial class testingTylerDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -138,7 +138,7 @@ namespace bangazon.Migrations
                     CustomerId = table.Column<int>(nullable: false),
                     DateAdded = table.Column<DateTime>(nullable: false, defaultValueSql: "strftime('%Y-%m-%d %H:%M:%S')"),
                     Description = table.Column<string>(maxLength: 140, nullable: false),
-                    Price = table.Column<int>(nullable: false),
+                    Price = table.Column<double>(nullable: false),
                     ProductName = table.Column<string>(maxLength: 55, nullable: false),
                     ProductTypeId = table.Column<int>(nullable: false),
                     Quantity = table.Column<int>(nullable: false)
@@ -169,7 +169,7 @@ namespace bangazon.Migrations
                     CustomerId = table.Column<int>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false, defaultValueSql: "strftime('%Y-%m-%d %H:%M:%S')"),
                     DateOrdered = table.Column<DateTime>(nullable: false),
-                    PaymentTypeId = table.Column<int>(nullable: false)
+                    PaymentTypeId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -185,7 +185,7 @@ namespace bangazon.Migrations
                         column: x => x.PaymentTypeId,
                         principalTable: "PaymentType",
                         principalColumn: "PaymentTypeId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -196,8 +196,8 @@ namespace bangazon.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     ComputerId = table.Column<int>(nullable: false),
                     EmployeeId = table.Column<int>(nullable: false),
-                    IssueDate = table.Column<DateTime>(nullable: false),
-                    ReturnDate = table.Column<DateTime>(nullable: false)
+                    IssueDate = table.Column<DateTime>(nullable: false, defaultValueSql: "strftime('%Y-%m-%d %H:%M:%S')"),
+                    ReturnDate = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
