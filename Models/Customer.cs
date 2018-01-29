@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -24,5 +25,7 @@ namespace Bangazon.Models
         public string LastName { get; set; }
 
         public DateTime LastActive { get; set; }   
+
+        public NameValueCollection QueryString { get; }
     }
 }

@@ -55,11 +55,7 @@ namespace Bangazon.Controllers
             }
 
 
-
-
-
         }
-
 
         // GET api/customer/5
         [HttpGet("{id}", Name = "GetSingleCustomer")]

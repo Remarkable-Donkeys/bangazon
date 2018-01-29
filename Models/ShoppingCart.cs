@@ -3,6 +3,7 @@ Purpose:  ShoppingCart model schema for Bangazon database */
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -26,6 +27,8 @@ namespace Bangazon.Models
 		public PaymentType PaymentType { get; set; }
 
 		public ICollection<OrderedProduct> OrderedProducts {get;set;}
+
+		public NameValueCollection QueryString { get; }
 
 	}
 }
