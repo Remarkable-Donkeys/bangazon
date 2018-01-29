@@ -1,3 +1,13 @@
+/*author: Kimberly Bird
+purpose: add/update/delete a product  for customers
+methods: 
+    GET list of all product
+    GET single product 
+    POST new a new product 
+    PUT change information on a product 
+    DELETE a product 
+ */
+ 
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +30,7 @@ namespace Bangazon.Controllers
             _context = ctx;
         }
 
-        // GET list of all products
+        // GET list of all products. URL: api/product
         [HttpGet]
         public IActionResult Get()
         {
@@ -32,7 +42,7 @@ namespace Bangazon.Controllers
             return Ok(products);
         }
 
-        // GET single product
+        // GET single product. URL: api/product/[ProductId]
         [HttpGet("{id}", Name = "GetSingleProduct")]
         public IActionResult Get(int id)
         {
@@ -56,12 +66,23 @@ namespace Bangazon.Controllers
             }
         }
 
-        // POST api/values
+        /*POST api/values
+        POST product type to database
+        Arguments: Product
+            {
+            "ProductName": required string (max 55 characters, ex. "hat"),
+            "Price": required double,
+            "Quantity": required quantity of product,
+            "CustomerId": required foreign key, 
+            "ProductTypeId": required foreign
+            }
+        */
         [HttpPost]
         public IActionResult Post([FromBody]Product product)
         {
             if (!ModelState.IsValid)
             {
+                //if not valid data according to conditions then return the error
                 return BadRequest(ModelState);
             }
             _context.Product.Add(product);
@@ -84,7 +105,16 @@ namespace Bangazon.Controllers
             return CreatedAtRoute("GetSingleProduct", new { id = product.ProductId }, product);
         }
 
-        // PUT api/values/5
+        /* PUT update product type: 
+        api/ProductType/[ProductId]
+        Arguments: ProductType 
+            {
+            "ProductName": required string (max 55 characters, ex. "hat"),
+            "Price": required double,
+            "Quantity": required quantity of product,
+            "CustomerId": required foreign key, 
+            "ProductTypeId": required foreign
+            } */
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody]Product product)
         {
@@ -114,7 +144,8 @@ namespace Bangazon.Controllers
             return new StatusCodeResult(StatusCodes.Status204NoContent);
         }
 
-        // DELETE api/values/5
+        /* DELETE single product: 
+        api/Product/[ProductId] */
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
@@ -129,6 +160,7 @@ namespace Bangazon.Controllers
             return Ok(product);
         }
 
+        //checks to see if the ProductType exists
         private bool ProductExists(int productId)
         {
             return _context.Product.Any(p => p.ProductId == productId);

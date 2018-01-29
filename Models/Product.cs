@@ -1,3 +1,6 @@
+/*author: Kimberly Bird
+purpose: model schema for database for Product */
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,7 +13,7 @@ namespace Bangazon.Models
         [Key]
         public int ProductId { get; set; }
 
-        // date product is added 
+        // date product is added - automatically generated on POST
         [Required]
         [DataType(DataType.Date)]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
@@ -21,7 +24,7 @@ namespace Bangazon.Models
         public string ProductName { get; set; }
 
         [Required]
-        public int Price { get; set; }
+        public double Price { get; set; }
 
         [Required]
         [StringLength(140)]

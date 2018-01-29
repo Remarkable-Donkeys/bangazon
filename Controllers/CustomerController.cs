@@ -21,7 +21,8 @@ namespace Bangazon.Controllers
             _context = ctx;
         }
         
-        //GET api/customer
+        //GET all customers. URL: api/customer
+        //GET customers with no active orders. URL: api/customer/?active=false
         [HttpGet]
         public IActionResult Get()
         {
@@ -32,10 +33,17 @@ namespace Bangazon.Controllers
             }
             return Ok(customers);
 
-            var innerjoinquery = 
-            from cust in Customer
-            join shopping in ShoppingCart on cust.CustomerId equals shopping.CustomerId
-            select new { }
+            // find all active customers
+
+            // find all customers
+
+            // compare two lists and see if active customers appear in our customer list
+
+            var innerJoinQuery = 
+            from c in _context.Customer
+            join s in _context.ShoppingCart on c.CustomerId == s.CustomerId
+            where s.PaymentTypeId == null && 
+            select new { Customer = c.CustomerId };
         }
 
         // GET api/customer/5
