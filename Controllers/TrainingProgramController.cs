@@ -1,5 +1,5 @@
 /*author: Kristen Norris
-purpose: to create a training program and add employees to a training program
+purpose: add/update/delete a training program and add/delete employees to a training program
 methods: 
     GET list of training programs 
     GET single training program 

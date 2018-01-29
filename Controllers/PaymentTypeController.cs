@@ -1,3 +1,13 @@
+/*author: Kristen Norris
+purpose: add/update/delete a payment type for customers
+methods: 
+    GET list of all payment types
+    GET single payment type
+    POST new a new payment type
+    PUT change information on a payment type
+    DELETE a payment type
+ */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +29,8 @@ namespace Bangazon.Controllers
         {
             _context = ctx;
         }
-        //gets list of payment types
+        
+        //GET list of payment types
         [HttpGet]
         public IActionResult Get()
         {
@@ -31,7 +42,8 @@ namespace Bangazon.Controllers
             return Ok(payment_types);
         }
 
-        // GET single payment type: api/PaymentType/[p]
+        /* GET single payment type: 
+        api/PaymentType/[PaymentTypeId] */
         [HttpGet("{id}", Name = "GetSinglePaymentType")]
         public IActionResult Get(int id)
         {
@@ -57,7 +69,7 @@ namespace Bangazon.Controllers
             }
         }
 
-        // POST api/values
+        // POST payment type
         [HttpPost]
         public IActionResult Post([FromBody]PaymentType payment_type)
         {
@@ -87,7 +99,8 @@ namespace Bangazon.Controllers
             return CreatedAtRoute("GetSinglePaymentType", new { id = payment_type.PaymentTypeId }, payment_type);
         }
 
-        // PUT api/values/[p]
+        /* PUT update payment type: 
+        api/PaymentType/[PaymentTypeId] */
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody]PaymentType payment_type)
         {
@@ -124,7 +137,8 @@ namespace Bangazon.Controllers
             return new StatusCodeResult(StatusCodes.Status204NoContent);
         }
 
-        // DELETE api/values/[p]
+        /* DELETE single payment type: 
+        api/PaymentType/[PaymentTypeId] */
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
