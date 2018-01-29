@@ -1,3 +1,13 @@
+/*author: Tyler Bowman
+purpose: add/update/get customers
+methods: 
+    GET list of all customers
+    GET{?active=false} list of inactive customers(customers who haven't placed an order) co-author for this method: Kimmy Bird
+    GET{id} get a single customer
+    POST new a new customer
+    PUT change information on a customer
+ */
+
 
 using System;
 using System.Collections.Generic;
@@ -60,7 +70,11 @@ namespace Bangazon.Controllers
             }
         }
 
-        // POST api/customer
+         /*POST customer type to database
+        Arguments: Customer {
+            "FirstName": required string (max 55 characters, ex. "Jimmy"),
+            "LastName": required int (max 55 characters, ex. "Buttz")
+        }*/
         [HttpPost]
         public IActionResult Post([FromBody]Customer customer)
         {
@@ -89,7 +103,13 @@ namespace Bangazon.Controllers
             return CreatedAtRoute("GetSingleCustomer", new { id = customer.CustomerId }, customer);
         }
 
-        // PUT api/customer/5
+        // PUT: api/{id}
+        /*PUT update information on a customer object to database
+        Arguments: Customer {
+            "CustomerId":required int
+            "FirstName": required string (max 55 characters, ex. "Jimmy"),
+            "LastName": required int (max 55 characters, ex. "Buttz")
+        }*/
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody]Customer customer)
         {
