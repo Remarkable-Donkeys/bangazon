@@ -25,6 +25,7 @@ namespace Bangazon.Controllers
 		public IActionResult Get()
 		{
 			var shoppingcarts = _context.ShoppingCart.ToList();
+			List<ShoppingCartDisplay> shoppingCartDisplays = new List<ShoppingCartDisplay>();
 			if (shoppingcarts == null)
 			{
 				return NotFound();
@@ -32,10 +33,27 @@ namespace Bangazon.Controllers
 
 			foreach(var shoppingCart in shoppingcarts)
 			{
-				//shoppingCart.OrderedProducts = _context.OrderedProduct.Include(s=>s.ProductId).ToList();
+				ShoppingCart shoppingcart = _context.ShoppingCart
+											.Include(s => s.OrderedProducts)
+											.ThenInclude(p => p.Product)
+											.Single(g => g.ShoppingCartId == shoppingCart.ShoppingCartId);
 
+				ShoppingCartDisplay shoppingcartdisplay = new ShoppingCartDisplay();
+				shoppingcartdisplay.CustomerId = shoppingcart.CustomerId;
+				shoppingcartdisplay.DateCreated = shoppingcart.DateCreated;
+				shoppingcartdisplay.DateOrdered = shoppingcart.DateOrdered;
+				shoppingcartdisplay.PaymentTypeId = shoppingcart.PaymentTypeId;
+				shoppingcartdisplay.ShoppingCartId = shoppingcart.ShoppingCartId;
+				shoppingcartdisplay.Products = new List<Product>();
+
+				foreach (OrderedProduct op in shoppingcart.OrderedProducts)
+				{
+					shoppingcartdisplay.Products.Add(_context.Product.Single(p => p.ProductId == op.ProductId));
+				}
+
+				shoppingCartDisplays.Add(shoppingcartdisplay);
 			}
-			return Ok(shoppingcarts);
+			return Ok(shoppingCartDisplays);
 		}
 
 
