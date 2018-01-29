@@ -21,7 +21,7 @@ namespace Bangazon.Models
         public string ProductName { get; set; }
 
         [Required]
-        public int Price { get; set; }
+        public double Price { get; set; }
 
         [Required]
         [StringLength(140)]
