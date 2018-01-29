@@ -1,3 +1,6 @@
+/*author: Kimberly Bird
+purpose: model schema for database for Product Type */
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
