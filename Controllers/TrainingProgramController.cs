@@ -1,3 +1,17 @@
+/*author: Kristen Norris
+purpose: to create a training program and add employees to a training program
+methods: 
+    GET list of training programs 
+    GET single training program 
+    POST new training program to database 
+    PUT change information on a training program
+    DELETE a training program
+
+    GET single employee/training program relationship
+    POST employee to a training program
+    DELETE remove an employee from a training program
+ */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +34,8 @@ namespace Bangazon.Controllers
         {
             _context = ctx;
         }
-        //gets list of training programs
+        
+        //GET list of training programs
         [HttpGet]
         public IActionResult Get()
         {
@@ -32,7 +47,8 @@ namespace Bangazon.Controllers
             return Ok(training_programs);
         }
 
-        // GET single training program: api/TrainingProgram/[p]
+        /* GET single training program
+        api/TrainingProgram/[TrainingProgramId] */
         [HttpGet("{id}", Name = "GetSingleTrainingProgram")]
         public IActionResult Get(int id)
         {
@@ -58,9 +74,11 @@ namespace Bangazon.Controllers
             }
         }
 
-        // GET single employee training relationship
+        /* GET single employee/training relationship. 
+        This method is primarily used to reture the employee/training relationship after it is added to the database.
+        api/TrainingProgram/employee/[EmployeeTrainingId] */
         [HttpGet("employee/{id}", Name = "GetSingleEmployeeTraining")]
-        public IActionResult GetEmployeeTraining(int id)
+        public IActionResult GetEmployeeTraining(int id) 
         {
             if (!ModelState.IsValid)
             {
@@ -111,7 +129,7 @@ namespace Bangazon.Controllers
                     throw;
                 }
             }
-
+            //return the training program that was just added
             return CreatedAtRoute("GetSingleTrainingProgram", new { id = training_program.TrainingProgramId }, training_program);
         }
 
@@ -149,7 +167,8 @@ namespace Bangazon.Controllers
         }
         
 
-        // PUT api/values/[p]
+        /* PUT update the information on a training program that already exists
+        api/trainingprogram/[TrainingProgramId] */
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody]TrainingProgram training_program)
         {
@@ -183,10 +202,12 @@ namespace Bangazon.Controllers
                 }
             }
 
-            return new StatusCodeResult(StatusCodes.Status204NoContent);
+            //return the training program that was just updated
+            return CreatedAtRoute("GetSingleTrainingProgram", id, training_program);
         }
 
-        // DELETE api/values/[p]
+        /* DELETE a training program but only if the training program is happening in the future. This will also delete all employee/training relationships associated with the deleted training program
+        api/trainingprogram/[TrainingProgramId] */
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
@@ -208,7 +229,8 @@ namespace Bangazon.Controllers
             return new StatusCodeResult(StatusCodes.Status204NoContent);
         }
 
-        // DELETE remove an employee from a training program
+        /* DELETE remove an employee from a training program
+        api/trainingprogram/employee[EmployeeTrainingId]*/
         [HttpDelete("employee/{id}")]
         public IActionResult DeleteEmployeeTraining(int id)
         {
