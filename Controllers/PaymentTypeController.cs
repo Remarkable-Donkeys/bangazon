@@ -29,7 +29,7 @@ namespace Bangazon.Controllers
         {
             _context = ctx;
         }
-        
+
         //GET list of payment types
         [HttpGet]
         public IActionResult Get()
@@ -69,7 +69,12 @@ namespace Bangazon.Controllers
             }
         }
 
-        // POST payment type
+        /*POST payment type 
+        Arguments: PaymentType {
+            "Name": required string (ex. "Debit Card")
+            "AccountNumer": required int (AccountNumbers are 8 integers long)
+            "CustomerId": required foreign key
+        }*/
         [HttpPost]
         public IActionResult Post([FromBody]PaymentType payment_type)
         {
@@ -100,7 +105,12 @@ namespace Bangazon.Controllers
         }
 
         /* PUT update payment type: 
-        api/PaymentType/[PaymentTypeId] */
+        api/PaymentType/[PaymentTypeId]
+        Arguments: PaymentType {
+            "Name": required string (ex. "Debit Card")
+            "AccountNumer": required int (AccountNumbers are 8 integers long)
+            "CustomerId": required foreign key
+        } */
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody]PaymentType payment_type)
         {
