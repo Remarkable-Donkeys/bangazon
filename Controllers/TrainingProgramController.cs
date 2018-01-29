@@ -117,7 +117,7 @@ namespace Bangazon.Controllers
 
         //POST adding employee to training program api/trainingprogram/employee
         [HttpPost("employee")]
-        public IActionResult Post([FromBody]EmployeeTraining employee_training)
+        public IActionResult Post(string employee, [FromBody]EmployeeTraining employee_training)
         {
             if (!ModelState.IsValid)
             {
