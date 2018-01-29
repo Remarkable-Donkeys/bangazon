@@ -82,15 +82,20 @@ methods:
     DELETE a Training Program `api/TrainingProgram/[TrainingProgramId]`
 
 
-# Install code
+# Installation
 - DB file
-Create a .db file in your code editor
+Create a .db file
 
 # System configuration
 - zshrc
 In CLI: `code ~/.zshrc`
-Add the following line of code to your zshrc file: 
+Add the following to your zshrc file: 
 `export: BANGAZON="PATH TO YOUR DATABASE FILE"`
 BANGAZON is already set up in the `Startup.cs` file
 - Migration
 To access database, in CLI: `dotnet ef database update`
+- No dependencies
+
+# Releases
+V1: January 29, 2018
+
