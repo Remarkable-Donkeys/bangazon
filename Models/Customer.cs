@@ -1,3 +1,7 @@
+/*
+    author: Tyler Bowman
+    purpose: Customer model schema for BangazonDB
+*/
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
