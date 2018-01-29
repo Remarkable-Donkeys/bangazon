@@ -1,3 +1,6 @@
+/*Autor: Sean Williams
+Purpose:  ShoppingCart model schema for returning the data on a successful GET request */
+
 using System;
 using System.Collections.Generic;
 
