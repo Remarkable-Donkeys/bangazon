@@ -70,7 +70,7 @@ namespace Bangazon.Controllers
 
         }
 
-        // GET api/customer/5
+        // GET api/customer/{id}
         [HttpGet("{id}", Name = "GetSingleCustomer")]
         public IActionResult Get(int id)
         {
