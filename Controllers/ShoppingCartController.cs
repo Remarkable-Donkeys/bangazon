@@ -42,6 +42,7 @@ namespace Bangazon.Controllers
 				return NotFound();
 			}
 
+			// foreach is taking data from shopping cart and putting in shopping cart display for proper formatting in JSON
 			foreach (var shoppingCart in shoppingcarts)
 			{
 				ShoppingCart shoppingcart = _context.ShoppingCart
