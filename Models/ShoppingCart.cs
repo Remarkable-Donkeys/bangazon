@@ -1,3 +1,6 @@
+/*Autor: Sean Williams
+Purpose:  ShoppingCart model schema for Bangazon database */
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -22,7 +25,7 @@ namespace Bangazon.Models
 		public int PaymentTypeId { get; set; }
 		public PaymentType PaymentType { get; set; }
 
-		public ICollection<OrderedProduct> OrderedProducts;
+		public ICollection<OrderedProduct> OrderedProducts {get;set;}
 
 	}
 }
