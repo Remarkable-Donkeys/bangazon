@@ -10,40 +10,46 @@ using Microsoft.Extensions.Logging;
 using Bangazon.Data;
 using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.Swagger;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+
 
 namespace Bangazon
 {
-    public class Startup
-    {
-        public Startup(IHostingEnvironment env)
-        {
-            Console.WriteLine("Startup");
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
-            Configuration = builder.Build();
-        }
+	public class Startup
+	{
+		public Startup(IHostingEnvironment env)
+		{
+			Console.WriteLine("Startup");
+			var builder = new ConfigurationBuilder()
+				.SetBasePath(env.ContentRootPath)
+				.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+				.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+				.AddEnvironmentVariables();
+			Configuration = builder.Build();
+		}
 
-        public IConfigurationRoot Configuration { get; }
+		public IConfigurationRoot Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
-            Console.WriteLine("ConfigureServices");
+		// This method gets called by the runtime. Use this method to add services to the container.
+		public void ConfigureServices(IServiceCollection services)
+		{
+			Console.WriteLine("ConfigureServices");
 
-            // Add CORS framework
-            services.AddCors(options =>
-            {
-                options.AddPolicy("AllowWhiteListOrigins",
-                    builder => builder.WithOrigins("http://example.com"));
-            });
+			// Add CORS framework
+			services.AddCors(options =>
+			{
+				options.AddPolicy("AllowWhiteListOrigins",
+					builder => builder.WithOrigins("http://example.com"));
+			});
 
-            // Add framework services.
-            services.AddMvc();
-
-
+			// Add framework services.
+      services.AddMvc().AddJsonOptions(options =>
+			{
+				options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+				options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+			});
+      
             string path = System.Environment.GetEnvironmentVariable("BANGAZON");
             var connection = $"Filename={path}";
             Console.WriteLine($"connection = {connection}");
@@ -56,16 +62,24 @@ namespace Bangazon
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
-        {
-            app.UseCors("AllowWhiteListOrigins");
 
-            Console.WriteLine("Configure");
+            
+			string path = System.Environment.GetEnvironmentVariable("BANGAZON");
+			var connection = $"Filename={path}";
+			Console.WriteLine($"connection = {connection}");
+			services.AddDbContext<BangazonContext>(options => options.UseSqlite(connection));
+		}
 
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
+		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+		{
+			app.UseCors("AllowWhiteListOrigins");
 
+			Console.WriteLine("Configure");
+
+      loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+      loggerFactory.AddDebug();
+      
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
 
@@ -74,7 +88,8 @@ namespace Bangazon
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
-
+            
+            
 
             app.UseMvc();
 
@@ -82,4 +97,5 @@ namespace Bangazon
 
         }
     }
+
 }
