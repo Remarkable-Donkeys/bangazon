@@ -11,9 +11,10 @@ using System;
 namespace bangazon.Migrations
 {
     [DbContext(typeof(BangazonContext))]
-    partial class BangazonContextModelSnapshot : ModelSnapshot
+    [Migration("20180129173043_testingTylerDB")]
+    partial class testingTylerDB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

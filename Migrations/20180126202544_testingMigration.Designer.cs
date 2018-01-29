@@ -11,9 +11,10 @@ using System;
 namespace bangazon.Migrations
 {
     [DbContext(typeof(BangazonContext))]
-    partial class BangazonContextModelSnapshot : ModelSnapshot
+    [Migration("20180126202544_testingMigration")]
+    partial class testingMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -201,7 +202,7 @@ namespace bangazon.Migrations
                         .IsRequired()
                         .HasMaxLength(140);
 
-                    b.Property<double>("Price");
+                    b.Property<int>("Price");
 
                     b.Property<string>("ProductName")
                         .IsRequired()
@@ -247,7 +248,7 @@ namespace bangazon.Migrations
 
                     b.Property<DateTime>("DateOrdered");
 
-                    b.Property<int?>("PaymentTypeId");
+                    b.Property<int>("PaymentTypeId");
 
                     b.HasKey("ShoppingCartId");
 
@@ -358,7 +359,8 @@ namespace bangazon.Migrations
 
                     b.HasOne("Bangazon.Models.PaymentType", "PaymentType")
                         .WithMany()
-                        .HasForeignKey("PaymentTypeId");
+                        .HasForeignKey("PaymentTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }
