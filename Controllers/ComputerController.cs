@@ -1,3 +1,13 @@
+/*Autor: Sean Williams
+purpose: add/update/delete for Computer
+methods: 
+    GET list of all Computers
+    GET single Computer
+    POST a new Computer or assign a computer to an employee
+    PUT change information on a Computer
+    DELETE a Computer
+ */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,12 +25,13 @@ namespace Bangazon.Controllers
 	{
 		private BangazonContext _context;
 
+		// Constructor method to create an instance of context to communicate with our database.
 		public ComputerController(BangazonContext ctx)
 		{
 			_context = ctx;
 		}
 
-		//GET api/customer
+		//GET list of all Computers
 		[HttpGet]
 		public IActionResult Get()
 		{
@@ -33,7 +44,8 @@ namespace Bangazon.Controllers
 		}
 
 
-		// GET api/customer/5
+		/* GET single Computer: 
+        api/computer/[ComputerId] */
 		[HttpGet("{id}", Name = "GetSingleComputer")]
 		public IActionResult Get(int id)
 		{
@@ -59,6 +71,14 @@ namespace Bangazon.Controllers
 			}
 		}
 
+		/*POST Adds a computer to an employee
+			api/comupter/employee
+			Arguments: EmployeeComputer {
+				"EmployeeId": required Foreign Key,
+				"ComputerId": required Foreign Key,
+				"ReturnDate": not required
+				}
+		*/
 		[HttpPost("employee")]
 		public IActionResult Post([FromBody]EmployeeComputer empcomp)
 		{
@@ -87,7 +107,14 @@ namespace Bangazon.Controllers
 				return NotFound();
 			}
 		}
-		// POST api/customer
+
+		/*POST Computer to database
+			Arguments: Computer {
+				"DatePurchase": required field of type DateTime,
+				"DateDecomissioned": not required field of type DateTime,
+				"Functioning": required field of type bool
+			}
+		*/
 		[HttpPost]
 		public IActionResult Post([FromBody]Computer computer)
 		{
@@ -116,7 +143,15 @@ namespace Bangazon.Controllers
 			return CreatedAtRoute("GetSingleComputer", new { id = computer.ComputerId }, computer);
 		}
 
-		// PUT api/customer/5
+		/* PUT update Computer: 
+        	api/computer/[ComputerId]
+        	Arguments: Computer {
+				"ComputerId": required int, 
+				"DatePurchase": required field of type DateTime,
+				"DateDecomissioned": not required field of type DateTime,
+				"Functioning": required field of type bool
+			}
+		 */
 		[HttpPut("{id}")]
 		public IActionResult Put(int id, [FromBody]Computer computer)
 		{
@@ -149,7 +184,8 @@ namespace Bangazon.Controllers
 			return new StatusCodeResult(StatusCodes.Status204NoContent);
 		}
 
-		// DELETE api/values/[p]
+		/* DELETE single Computer: 
+        api/computer/[ComputerId] */
 		[HttpDelete("{id}")]
 		public IActionResult Delete(int id)
 		{
@@ -165,7 +201,9 @@ namespace Bangazon.Controllers
 			return Ok(computer);
 		}
 
-		// DELETE remove a computer from an employee
+		/* DELETE remove a computer from an employee
+		api/computer/employee/[EmployeeComputerId]
+		*/
 		[HttpDelete("employee/{id}")]
 		public IActionResult DeleteEmployeeTraining(int id)
 		{

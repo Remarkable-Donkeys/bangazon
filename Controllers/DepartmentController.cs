@@ -1,3 +1,11 @@
+/*Autor: Sean Williams
+purpose: add/update/delete for Department
+methods: 
+    GET list of all Departments
+    GET single Department
+    POST a new Department
+    PUT change information on a Department
+ */
 
 using System;
 using System.Collections.Generic;
@@ -17,12 +25,13 @@ namespace Bangazon.Controllers
 
 		private BangazonContext _context;
 
+		// Constructor method to create an instance of context to communicate with our database.
 		public DepartmentController(BangazonContext ctx)
 		{
 			_context = ctx;
 		}
 
-		//GET api/customer
+		//GET list of all Departments
 		[HttpGet]
 		public IActionResult Get()
 		{
@@ -35,7 +44,8 @@ namespace Bangazon.Controllers
 		}
 
 
-		// GET api/customer/5
+		/* GET single Department: 
+        api/department/[DepartmentId] */
 		[HttpGet("{id}", Name = "GetSingleDepartment")]
 		public IActionResult Get(int id)
 		{
@@ -61,7 +71,12 @@ namespace Bangazon.Controllers
 			}
 		}
 
-		// POST api/customer
+		/*POST Department to database
+			Arguments: Department {
+				"Name": required string (max 25 characters),
+				"Budget": required int
+			}
+		*/
 		[HttpPost]
 		public IActionResult Post([FromBody]Department department)
 		{
@@ -90,7 +105,14 @@ namespace Bangazon.Controllers
 			return CreatedAtRoute("GetSingleDepartment", new { id = department.DepartmentId }, department);
 		}
 
-		// PUT api/customer/5
+		/* PUT update Department: 
+        	api/department/[DepartmentId]
+        	Arguments: Department {
+				"DepartmentId": required int
+				"Name": required string (max 25 characters),
+				"Budget": required int
+			}
+		 */
 		[HttpPut("{id}")]
 		public IActionResult Put(int id, [FromBody]Department department)
 		{

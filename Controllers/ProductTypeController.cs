@@ -1,3 +1,13 @@
+/*author: Kimberly Bird
+purpose: add/update/delete a product type for customers
+methods: 
+    GET list of all product types
+    GET single product type
+    POST new a new product type
+    PUT change information on a product type
+    DELETE a product type
+ */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +30,7 @@ namespace Bangazon.Controllers
             _context = ctx;
         }
 
-        // GET list of product types
+        // GET list of product types. URL: api/productType
         [HttpGet]
         public IActionResult Get()
         {
@@ -32,7 +42,7 @@ namespace Bangazon.Controllers
             return Ok(productTypes);
         }
 
-        // GET single product type
+        // GET single product type. URL: api/productType/[ProductTypeId]
         [HttpGet("{id}", Name = "GetSingleProductType")]
         public IActionResult Get(int id)
         {
@@ -56,12 +66,18 @@ namespace Bangazon.Controllers
             }
         }
 
-        // POST api/values
+        /* POST api/values
+        POST product type to database
+        Arguments: ProductType 
+            {
+            "Type": required string (max 55 characters, ex. "clothing")
+            } */
         [HttpPost]
         public IActionResult Post([FromBody]ProductType productType)
         {
             if (!ModelState.IsValid)
             {
+                //if not valid data according to conditions then return the error
                 return BadRequest(ModelState);
             }
             _context.ProductType.Add(productType);
@@ -78,13 +94,18 @@ namespace Bangazon.Controllers
                 }
                 else
                 {
-                    throw;    
+                    throw;
                 }
             }
             return CreatedAtRoute("GetSingleProductType", new { id = productType.ProductTypeId }, productType);
         }
 
-        // PUT api/values/5
+        /* PUT update product type: 
+        api/ProductType/[ProductTypeId]
+        Arguments: ProductType 
+            {
+            "Type": required string (max 55 characters, ex. "clothing"
+            } */
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody]ProductType productType)
         {
@@ -97,7 +118,8 @@ namespace Bangazon.Controllers
                 return BadRequest();
             }
             _context.ProductType.Update(productType);
-            try{
+            try
+            {
                 _context.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
@@ -114,7 +136,8 @@ namespace Bangazon.Controllers
             return new StatusCodeResult(StatusCodes.Status204NoContent);
         }
 
-        // DELETE api/values/5
+        /* DELETE single product type: 
+        api/ProductType/[ProductTypeId] */
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
@@ -129,6 +152,7 @@ namespace Bangazon.Controllers
             return Ok(productType);
         }
 
+        //checks to see if the ProductType exists
         private bool ProductTypeExists(int productTypeId)
         {
             return _context.ProductType.Any(p => p.ProductTypeId == productTypeId);

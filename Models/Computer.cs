@@ -18,7 +18,7 @@ namespace Bangazon.Models
         [Required]
         public DateTime DatePurchased {get;set;}
 
-        public DateTime DateDecommisioned {get;set;}
+        public DateTime? DateDecommisioned {get;set;}
 
         [Required]
         public bool Functioning {get;set;}
