@@ -197,7 +197,7 @@ namespace bangazon.Migrations
                     ComputerId = table.Column<int>(nullable: false),
                     EmployeeId = table.Column<int>(nullable: false),
                     IssueDate = table.Column<DateTime>(nullable: false, defaultValueSql: "strftime('%Y-%m-%d %H:%M:%S')"),
-                    ReturnDate = table.Column<DateTime>(nullable: false)
+                    ReturnDate = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {

@@ -1,3 +1,6 @@
+/*Autor: Sean Williams
+Purpose:  Department model schema for Bangazon database */
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

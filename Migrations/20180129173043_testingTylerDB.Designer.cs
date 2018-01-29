@@ -11,8 +11,8 @@ using System;
 namespace bangazon.Migrations
 {
     [DbContext(typeof(BangazonContext))]
-    [Migration("20180125202808_MigrationToAddProductTypeToModel")]
-    partial class MigrationToAddProductTypeToModel
+    [Migration("20180129173043_testingTylerDB")]
+    partial class testingTylerDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -83,8 +83,7 @@ namespace bangazon.Migrations
 
                     b.Property<int>("DepartmentId");
 
-                    b.Property<DateTime>("EndDate")
-                        .ValueGeneratedOnAddOrUpdate();
+                    b.Property<DateTime?>("EndDate");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -94,8 +93,7 @@ namespace bangazon.Migrations
                         .IsRequired()
                         .HasMaxLength(55);
 
-                    b.Property<DateTime>("StartDate")
-                        .ValueGeneratedOnAddOrUpdate();
+                    b.Property<DateTime>("StartDate");
 
                     b.Property<string>("Status")
                         .IsRequired();
@@ -119,10 +117,10 @@ namespace bangazon.Migrations
                     b.Property<int>("EmployeeId");
 
                     b.Property<DateTime>("IssueDate")
-                        .ValueGeneratedOnAddOrUpdate();
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasDefaultValueSql("strftime('%Y-%m-%d %H:%M:%S')");
 
-                    b.Property<DateTime>("ReturnDate")
-                        .ValueGeneratedOnAddOrUpdate();
+                    b.Property<DateTime?>("ReturnDate");
 
                     b.HasKey("EmployeeComputerId");
 
@@ -164,6 +162,8 @@ namespace bangazon.Migrations
 
                     b.HasIndex("ProductId");
 
+                    b.HasIndex("ShoppingCartId");
+
                     b.ToTable("OrderedProduct");
                 });
 
@@ -202,7 +202,7 @@ namespace bangazon.Migrations
                         .IsRequired()
                         .HasMaxLength(140);
 
-                    b.Property<int>("Price");
+                    b.Property<double>("Price");
 
                     b.Property<string>("ProductName")
                         .IsRequired()
@@ -242,11 +242,13 @@ namespace bangazon.Migrations
 
                     b.Property<int>("CustomerId");
 
-                    b.Property<DateTime>("DateCreated");
+                    b.Property<DateTime>("DateCreated")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("strftime('%Y-%m-%d %H:%M:%S')");
 
                     b.Property<DateTime>("DateOrdered");
 
-                    b.Property<int>("PaymentTypeId");
+                    b.Property<int?>("PaymentTypeId");
 
                     b.HasKey("ShoppingCartId");
 
@@ -320,6 +322,11 @@ namespace bangazon.Migrations
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Bangazon.Models.ShoppingCart", "ShoppingCart")
+                        .WithMany()
+                        .HasForeignKey("ShoppingCartId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Bangazon.Models.PaymentType", b =>
@@ -352,8 +359,7 @@ namespace bangazon.Migrations
 
                     b.HasOne("Bangazon.Models.PaymentType", "PaymentType")
                         .WithMany()
-                        .HasForeignKey("PaymentTypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("PaymentTypeId");
                 });
 #pragma warning restore 612, 618
         }
