@@ -61,10 +61,11 @@ namespace Bangazon.Controllers
 				shoppingcartdisplay.DateOrdered = shoppingcart.DateOrdered;
 				shoppingcartdisplay.PaymentTypeId = shoppingcart.PaymentTypeId;
 				shoppingcartdisplay.ShoppingCartId = shoppingcart.ShoppingCartId;
+				shoppingcartdisplay.Products = new List<Product>();
 
 				foreach (OrderedProduct op in shoppingcart.OrderedProducts)
 				{
-					shoppingcartdisplay.Products.Add(shoppingcart.OrderedProducts[op].Product);
+					shoppingcartdisplay.Products.Add(_context.Product.Single(p => p.ProductId == op.ProductId));
 				}
 
 				if (shoppingcart == null)
