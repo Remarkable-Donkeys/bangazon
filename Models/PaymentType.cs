@@ -1,3 +1,6 @@
+/* author: Kristen Norris
+purpose: model schema for database for Payment Type */
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

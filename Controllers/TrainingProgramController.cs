@@ -102,7 +102,14 @@ namespace Bangazon.Controllers
             }
         }
 
-        // POST training program to database
+        /* POST training program to database 
+        Arguments: TrainingProgram {
+            "Name": required string (max 55 characters),
+            "Description": string (max 150 characters),
+            "StartDate": required string (formatted: YYYY-MM-DD),
+            "EndDate": required string (formatted: YYYY-MM-DD),
+            "MaxAttendees": required int
+        }*/
         [HttpPost]
         public IActionResult Post([FromBody]TrainingProgram training_program)
         {
@@ -133,7 +140,12 @@ namespace Bangazon.Controllers
             return CreatedAtRoute("GetSingleTrainingProgram", new { id = training_program.TrainingProgramId }, training_program);
         }
 
-        //POST adding employee to training program api/trainingprogram/employee
+        /*POST adding employee to training program api/trainingprogram/employee 
+        Arguments: EmployeeTraining {
+            "EmployeeId": required foreign key,
+            "TrainingProgramId": required foreign key
+
+        }*/
         [HttpPost("employee")]
         public IActionResult Post([FromBody]EmployeeTraining employee_training)
         {
@@ -168,7 +180,14 @@ namespace Bangazon.Controllers
         
 
         /* PUT update the information on a training program that already exists
-        api/trainingprogram/[TrainingProgramId] */
+        api/trainingprogram/[TrainingProgramId] 
+        Arguments: TrainingProgram {
+            "Name": required string (max 55 characters),
+            "Description": string (max 150 characters),
+            "StartDate": required string (formatted: YYYY-MM-DD),
+            "EndDate": required string (formatted: YYYY-MM-DD),
+            "MaxAttendees": required int
+        } */
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody]TrainingProgram training_program)
         {

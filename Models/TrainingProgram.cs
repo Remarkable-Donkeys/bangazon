@@ -1,3 +1,6 @@
+/*author: Kristen Norris
+purpose: model schema for database for Training Program */
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

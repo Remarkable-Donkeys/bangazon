@@ -69,10 +69,10 @@ namespace Bangazon.Controllers
             }
         }
 
-        /*POST payment type 
+        /*POST payment type to database
         Arguments: PaymentType {
-            "Name": required string (ex. "Debit Card")
-            "AccountNumer": required int (AccountNumbers are 8 integers long)
+            "Name": required string (max 20 characters, ex. "Debit Card"),
+            "AccountNumer": required int (AccountNumbers are 8 integers long),
             "CustomerId": required foreign key
         }*/
         [HttpPost]
@@ -107,7 +107,7 @@ namespace Bangazon.Controllers
         /* PUT update payment type: 
         api/PaymentType/[PaymentTypeId]
         Arguments: PaymentType {
-            "Name": required string (ex. "Debit Card")
+            "Name": required string (max 20 characters, ex. "Debit Card"),
             "AccountNumer": required int (AccountNumbers are 8 integers long)
             "CustomerId": required foreign key
         } */
