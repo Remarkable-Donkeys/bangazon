@@ -74,7 +74,7 @@ namespace Bangazon.Controllers
         POST employee to database
         Arguments: Employee {
             "FirstName": required string (max 55 characters, ex. "Jimmy"),
-            "LastName": required int (max 55 characters, ex. "Buttz"),
+            "LastName": required string (max 55 characters, ex. "Buttz"),
             "StartDate": required DateTime (format: "YYYY-MM-DD"),
             "EndDate": DateTime (format: "YYYY-MM-DD"),
             "DepartmentId": required int,
@@ -116,7 +116,7 @@ namespace Bangazon.Controllers
             Arguments: Employee {
                 "EmployeeId": required int,
                 "FirstName": required string (max 55 characters, ex. "Jimmy"),
-                "LastName": required int (max 55 characters, ex. "Buttz"),
+                "LastName": required string (max 55 characters, ex. "Buttz"),
                 "StartDate": required DateTime (format: "YYYY-MM-DD"),
                 "EndDate": DateTime (format: "YYYY-MM-DD"),
                 "DepartmentId": required int,

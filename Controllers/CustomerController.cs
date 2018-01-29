@@ -99,7 +99,7 @@ namespace Bangazon.Controllers
             POST customer type to database
             Arguments: Customer {
                 "FirstName": required string (max 55 characters, ex. "Jimmy"),
-                "LastName": required int (max 55 characters, ex. "Buttz")
+                "LastName": required string (max 55 characters, ex. "Buttz")
             }
         */
 
@@ -138,7 +138,7 @@ namespace Bangazon.Controllers
             Arguments: Customer {
                 "CustomerId":required int
                 "FirstName": required string (max 55 characters, ex. "Jimmy"),
-                "LastName": required int (max 55 characters, ex. "Buttz")
+                "LastName": required string (max 55 characters, ex. "Buttz")
         }*/
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody]Customer customer)
