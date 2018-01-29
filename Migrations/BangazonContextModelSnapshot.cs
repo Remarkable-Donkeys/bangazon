@@ -82,8 +82,7 @@ namespace bangazon.Migrations
 
                     b.Property<int>("DepartmentId");
 
-                    b.Property<DateTime>("EndDate")
-                        .ValueGeneratedOnAddOrUpdate();
+                    b.Property<DateTime?>("EndDate");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -93,8 +92,7 @@ namespace bangazon.Migrations
                         .IsRequired()
                         .HasMaxLength(55);
 
-                    b.Property<DateTime>("StartDate")
-                        .ValueGeneratedOnAddOrUpdate();
+                    b.Property<DateTime>("StartDate");
 
                     b.Property<string>("Status")
                         .IsRequired();
@@ -118,10 +116,10 @@ namespace bangazon.Migrations
                     b.Property<int>("EmployeeId");
 
                     b.Property<DateTime>("IssueDate")
-                        .ValueGeneratedOnAddOrUpdate();
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasDefaultValueSql("strftime('%Y-%m-%d %H:%M:%S')");
 
-                    b.Property<DateTime>("ReturnDate")
-                        .ValueGeneratedOnAddOrUpdate();
+                    b.Property<DateTime?>("ReturnDate");
 
                     b.HasKey("EmployeeComputerId");
 
@@ -162,6 +160,8 @@ namespace bangazon.Migrations
                     b.HasKey("OrderedProductId");
 
                     b.HasIndex("ProductId");
+
+                    b.HasIndex("ShoppingCartId");
 
                     b.ToTable("OrderedProduct");
                 });
@@ -241,7 +241,9 @@ namespace bangazon.Migrations
 
                     b.Property<int>("CustomerId");
 
-                    b.Property<DateTime>("DateCreated");
+                    b.Property<DateTime>("DateCreated")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("strftime('%Y-%m-%d %H:%M:%S')");
 
                     b.Property<DateTime>("DateOrdered");
 
@@ -318,6 +320,11 @@ namespace bangazon.Migrations
                     b.HasOne("Bangazon.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Bangazon.Models.ShoppingCart", "ShoppingCart")
+                        .WithMany()
+                        .HasForeignKey("ShoppingCartId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

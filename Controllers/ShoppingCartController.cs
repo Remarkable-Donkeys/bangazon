@@ -29,6 +29,12 @@ namespace Bangazon.Controllers
 			{
 				return NotFound();
 			}
+
+			foreach(var shoppingCart in shoppingcarts)
+			{
+				//shoppingCart.OrderedProducts = _context.OrderedProduct.Include(s=>s.ProductId).ToList();
+
+			}
 			return Ok(shoppingcarts);
 		}
 
@@ -44,16 +50,29 @@ namespace Bangazon.Controllers
 
 			try
 			{
-				ShoppingCart shoppingcart = _context.ShoppingCart.Single(g => g.ShoppingCartId == id);
+				ShoppingCart shoppingcart = _context.ShoppingCart
+											.Include(s => s.OrderedProducts)
+											.ThenInclude(p => p.Product)
+											.Single(g => g.ShoppingCartId == id);
 
-				//shoppingcart.OrderedProducts = _context.OrderedProduct.FromSql($"Select * From OrderedProduct, Where ShoppingCartId = {id}").ToList();
+				ShoppingCartDisplay shoppingcartdisplay = new ShoppingCartDisplay();
+				shoppingcartdisplay.CustomerId = shoppingcart.CustomerId;
+				shoppingcartdisplay.DateCreated = shoppingcart.DateCreated;
+				shoppingcartdisplay.DateOrdered = shoppingcart.DateOrdered;
+				shoppingcartdisplay.PaymentTypeId = shoppingcart.PaymentTypeId;
+				shoppingcartdisplay.ShoppingCartId = shoppingcart.ShoppingCartId;
+
+				foreach (OrderedProduct op in shoppingcart.OrderedProducts)
+				{
+					shoppingcartdisplay.Products.Add(shoppingcart.OrderedProducts[op].Product);
+				}
 
 				if (shoppingcart == null)
 				{
 					return NotFound();
 				}
 
-				return Ok(shoppingcart);
+				return Ok(shoppingcartdisplay);
 			}
 			catch (System.InvalidOperationException ex)
 			{
