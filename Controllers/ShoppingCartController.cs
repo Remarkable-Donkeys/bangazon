@@ -1,5 +1,12 @@
 /*Autor: Sean Williams
-Purpose:   */
+purpose: add/update/delete for Shopping Carts
+methods: 
+    GET list of all Shopping Carts
+    GET single Shopping Cart
+    POST a new Shopping Cart or add a product to a Shopping Cart
+    PUT change information on a Shopping Cart
+    DELETE a Shopping Cart
+ */
 
 using System;
 using System.Collections.Generic;
@@ -18,12 +25,13 @@ namespace Bangazon.Controllers
 	{
 		private BangazonContext _context;
 
+		// Constructor method to create an instance of context to communicate with our database.
 		public ShoppingCartController(BangazonContext ctx)
 		{
 			_context = ctx;
 		}
 
-		//GET api/shoppingcart
+		//GET list of all Shopping Carts
 		[HttpGet]
 		public IActionResult Get()
 		{
@@ -34,7 +42,7 @@ namespace Bangazon.Controllers
 				return NotFound();
 			}
 
-			foreach(var shoppingCart in shoppingcarts)
+			foreach (var shoppingCart in shoppingcarts)
 			{
 				ShoppingCart shoppingcart = _context.ShoppingCart
 											.Include(s => s.OrderedProducts)
@@ -60,7 +68,8 @@ namespace Bangazon.Controllers
 		}
 
 
-		// GET api/shoppingcart/5
+		/* GET single Shopping Cart: 
+        api/shoppingcart/[ShoppingCartId] */
 		[HttpGet("{id}", Name = "GetSingleShoppingCart")]
 		public IActionResult Get(int id)
 		{
@@ -102,6 +111,13 @@ namespace Bangazon.Controllers
 			}
 		}
 
+		/*POST Adds a product to a Shopping Cart
+			api/shoppingcart/product
+			Arguments: OrderProduct {
+				"ShoppingCartId": required Foreign Key,
+				"ProductId": required Foreign Key 
+				}
+		*/
 		[HttpPost("product")]
 		public IActionResult Post([FromBody]OrderedProduct op)
 		{
@@ -145,7 +161,13 @@ namespace Bangazon.Controllers
 			}
 		}
 
-		// POST api/shoppingcart
+		/*POST Shopping Cart to database
+			Arguments: ShoppingCart {
+				"CustomerId": required Foreign Key, 
+				"PaymentTypeId": required Foreign Key, 
+				"DateOrdered": not required
+			}
+		*/
 		[HttpPost]
 		public IActionResult Post([FromBody]ShoppingCart shoppingcart)
 		{
@@ -174,7 +196,15 @@ namespace Bangazon.Controllers
 			return CreatedAtRoute("GetSingleShoppingCart", new { id = shoppingcart.ShoppingCartId }, shoppingcart);
 		}
 
-		// PUT api/shoppingcart/5
+		/* PUT update Shopping Cart: 
+        	api/shoppingcart/[ShoppingCartId]
+        	Arguments: ShoppingCart {
+				"ShoppingCartId" required int,
+				"CustomerId": required Foreign Key, 
+				"PaymentTypeId": required Foreign Key,
+				"DateOrdered": not required
+			}
+		 */
 		[HttpPut("{id}")]
 		public IActionResult Put(int id, [FromBody]ShoppingCart shoppingcart)
 		{
@@ -206,8 +236,9 @@ namespace Bangazon.Controllers
 
 			return new StatusCodeResult(StatusCodes.Status204NoContent);
 		}
-        
-		// DELETE api/values/[p]
+
+		/* DELETE single shopping Cart: 
+        api/shoppingcart/[ShoppingCartId] */
 		[HttpDelete("{id}")]
 		public IActionResult Delete(int id)
 		{
@@ -223,7 +254,9 @@ namespace Bangazon.Controllers
 			return Ok(shoppingCart);
 		}
 
-		// DELETE remove an product from a shoppingcart
+		/* DELETE remove a product from a shoppingcart
+		api/shoppingcart/product/[OrderedProductId]
+		*/
 		[HttpDelete("product/{id}")]
 		public IActionResult DeleteEmployeeTraining(int id)
 		{
