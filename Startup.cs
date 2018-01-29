@@ -9,8 +9,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Bangazon.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using Swashbuckle.AspNetCore.Swagger;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -33,19 +31,17 @@ namespace Bangazon
 
 		public IConfigurationRoot Configuration { get; }
 
-            // Add CORS framework
-            services.AddCors(options =>
-            {
-                options.AddPolicy("AllowSpecificOrigin",
-                    builder => builder.WithOrigins("http://bangazon.com"));
-            });
+		// This method gets called by the runtime. Use this method to add services to the container.
+		public void ConfigureServices(IServiceCollection services)
+		{
+			Console.WriteLine("ConfigureServices");
 
-            // Add framework services.
-            services.AddMvc();
-            services.Configure<MvcOptions>(options =>
-            {
-                options.Filters.Add(new CorsAuthorizationFilterFactory("AllowSpecificOrigin"));
-            });
+			// Add CORS framework
+			services.AddCors(options =>
+			{
+				options.AddPolicy("AllowWhiteListOrigins",
+					builder => builder.WithOrigins("http://example.com"));
+			});
 
 			// Add framework services.
       services.AddMvc().AddJsonOptions(options =>
@@ -66,10 +62,6 @@ namespace Bangazon
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
-        {
-            app.UseCors("AllowSpecificOrigin");
 
             
 			string path = System.Environment.GetEnvironmentVariable("BANGAZON");
@@ -104,7 +96,6 @@ namespace Bangazon
 
 
         }
-
     }
 
 }
