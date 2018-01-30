@@ -88,15 +88,39 @@ Create a .db file
 
 # System configuration
 Windows users: 
-1. Go to environment variable settings
-2. Add BANGAZON variable that is = to db path
+1. Setting up environment
+    1. Go to environment variable settings
+    2. Add BANGAZON variable that is = to db path
+2. Add bangazon.com and www.bangazon.com as local host aliases
+    1. Press the Windows key on your keyboard, type Notepad, but do NOT press Enter.
+    2. Right click on Notepad and choose Run as Administrator.
+    3. Log in (or have a someone with admin credentials log in).
+    4. Click File > Open.
+    5. Navigate to C:\Windows\System32\drivers\etc.
+    6. In the lower right corner of the Open dialog box, change the Text Documents (*.txt) to All Files.
+    7. Double click on hosts.
 
 Mac users: 
-`export BANGAZON="PATH/TO/DB/FILE"`
+1. Setting up the environment
+    `export BANGAZON="PATH/TO/DB/FILE"`
+2. Add bangazon.com and www.bangazon.com as local host aliases
+    1. `sudo nano /etc/hosts`
+    2. under `127.0.0.1 localhost` add `127.0.0.1 bangazon.com` and then `127.0.0.1 www.bangazon.com`
+    *make sure everything lines up so they look like the aliases that are already in your host file
+    3. exit the file and confirm changes
 
-- Migration
-To access database, in CLI: `dotnet ef database update`
-- Dependencies: Using dotnet version 2.1.3
+Both Windows and Mac users:
+1. Migration
+    To access database, in CLI: `dotnet ef database update`
+2. Dependencies: Using dotnet version 2.1.3
+3. To test to make sure that CORS is properly working follow the below steps:
+    1. Outside of your Bangazon directory, download the test files for CORS `git clone https://github.com/Remarkable-Donkeys/testingCors`
+    2. Have two terminal windows open.
+    3. have bangazon open and run `dotnet run` in one
+    4. have your test folder open and run `http-server` in the other
+    5. In your browser, open dev tools and set the url as bangazon.com:8080
+    6. To see if the request was successful, in Dev Tools: go to the Network tab, click customer and the preview. Customer information from your database should appear.
+
 
 # Releases
 V1: January 29, 2018
